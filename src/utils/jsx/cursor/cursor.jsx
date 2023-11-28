@@ -11,6 +11,18 @@ const Cursor = () => {
         const cursor = cursorRef.current;
         const trail = trailRef.current;
 
+        document.querySelectorAll(".hoverable").forEach((element) => {
+            element.addEventListener("mouseenter", () => {
+                gsap.to(cursor, { scale: 3, duration: 0.5 });
+                gsap.to(trail, { scale: 0.5, duration: 0.5 });
+            });
+
+            element.addEventListener("mouseleave", () => {
+                gsap.to(cursor, { scale: 1, duration: 0.5 });
+                gsap.to(trail, { scale: 1, duration: 0.5 });
+            });
+        });
+
         const moveCursor = (event) => {
             const { clientX, clientY } = event;
             gsap.to(cursor, {
@@ -21,8 +33,8 @@ const Cursor = () => {
             });
             gsap.to(trail, {
                 duration: 0.7,
-                left: clientX,
-                top: clientY,
+                left: clientX + 5,
+                top: clientY + 5,
                 ease: "elastic.out(1, 0.3)",
             });
         };

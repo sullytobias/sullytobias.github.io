@@ -1,7 +1,31 @@
-import "./Title.scss";
+import { useRef, useEffect } from "react";
 
-const Title = ({ text }) => {
-    return <h1 className="Title">{text}</h1>;
+import gsap from "gsap";
+
+import "./title.scss";
+
+const Title = ({ text, animationTime, delay }) => {
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const scribeAnimation = gsap.timeline({ repeat: 0 });
+
+        scribeAnimation.fromTo(
+            ref.current,
+            { width: 0 },
+            {
+                width: "100%",
+                duration: animationTime,
+                delay: delay,
+                ease: "power2.inOut",
+            }
+        );
+    }, []);
+    return (
+        <h1 ref={ref} className="Title">
+            {text}
+        </h1>
+    );
 };
 
 export default Title;

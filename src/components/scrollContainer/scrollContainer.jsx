@@ -1,0 +1,42 @@
+import { useEffect, useRef } from "react";
+
+import gsap from "gsap";
+
+import "./scrollContainer.scss";
+
+const ScrollContainer = ({ children }) => {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        gsap.to(containerRef.current, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power2.out",
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        observer.observe(containerRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
+    return (
+        <div className="ScrollContainer" ref={containerRef}>
+            {children}
+        </div>
+    );
+};
+
+export default ScrollContainer;

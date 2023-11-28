@@ -1,11 +1,14 @@
 @import '../../utils/styles/colors';
 
 .Title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: $white; 
     text-align: center;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+    margin: 0;
     letter-spacing: 2px;
     font-weight: bold;
+    width: fit-content;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
  }
