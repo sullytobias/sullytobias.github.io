@@ -3,12 +3,11 @@ import Title from "./components/title/title";
 import Paragraph from "./components/paragraph/paragraph";
 import Button from "./components/button/button";
 import Header from "./components/header/header";
+import ScrollContainer from "./components/scrollContainer/scrollContainer";
 
 import Cursor from "./utils/jsx/cursor/cursor";
 
 import "./App.scss";
-import ScrollText from "./components/scrollContainer/scrollContainer";
-import ScrollContainer from "./components/scrollContainer/scrollContainer";
 
 function App() {
     return (
