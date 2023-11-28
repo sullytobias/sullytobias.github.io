@@ -1,7 +1,7 @@
 import "./section.scss";
 
-const Section = ({ children }) => {
-    return <section className="Section">{children}</section>;
-};
+function Section({ children, className }) {
+    return <section className={`Section ${className}`}>{children}</section>;
+}
 
 export default Section;

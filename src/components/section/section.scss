@@ -1,9 +1,10 @@
 @import '../../utils/styles/breakpoints';
 
 .Section {
-    width: fit-content;
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     min-height: 100vh;
 
     @include respond-to(md) {

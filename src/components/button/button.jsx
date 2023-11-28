@@ -9,11 +9,11 @@ const Button = ({ text, delay }) => {
 
     useEffect(() => {
         gsap.to(buttonRef.current, {
-            y: 20,
+            y: 50,
             ease: "power2.out",
             delay: delay,
             opacity: 1,
-            duration: 2,
+            duration: 1.5,
         });
     }, []);
 

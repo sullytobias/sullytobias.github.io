@@ -4,7 +4,7 @@ import gsap from "gsap";
 
 import "./scrollContainer.scss";
 
-const ScrollContainer = ({ children }) => {
+const ScrollContainer = ({ children, duration }) => {
     const containerRef = useRef(null);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const ScrollContainer = ({ children }) => {
                         gsap.to(containerRef.current, {
                             opacity: 1,
                             y: 0,
-                            duration: 1.5,
+                            duration: duration ?? 1.5,
                         });
                         observer.unobserve(entry.target);
                     }

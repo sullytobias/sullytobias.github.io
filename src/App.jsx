@@ -4,6 +4,7 @@ import Paragraph from "./components/paragraph/paragraph";
 import Button from "./components/button/button";
 import Header from "./components/header/header";
 import ScrollContainer from "./components/scrollContainer/scrollContainer";
+import Image from "./components/image/image";
 
 import Cursor from "./utils/jsx/cursor/cursor";
 
@@ -14,7 +15,7 @@ function App() {
         <div className="App">
             <Header />
             <Cursor />
-            <Section>
+            <Section className="App__introduction">
                 <div>
                     <Title animationTime={2} delay={0.3} text="Hello 🫡" />
                     <Title
@@ -29,6 +30,11 @@ function App() {
                     />
                     <Button delay={2} text="Get To Know Me" />
                     <Button delay={2} text="Contact" />
+                </div>
+                <div className="Portfolio__image">
+                    <ScrollContainer duration={0.5}>
+                        <Image src="assets/portfolio.png" />
+                    </ScrollContainer>
                 </div>
             </Section>
             <Section>
