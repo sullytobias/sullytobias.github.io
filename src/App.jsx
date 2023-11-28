@@ -33,7 +33,14 @@ function App() {
             </Section>
             <Section>
                 <ScrollContainer>
-                    <Title text="qzdkqzn djoqezdnqjdbqzjdnjzoq" />
+                    <Title
+                        wrapped
+                        text="I am a passionate UI Engineer who bridges the gap between development and design."
+                    />
+                    <Title
+                        wrapped
+                        text="I take responsibility to craft a good user experience using modern frontend architecture."
+                    />
                 </ScrollContainer>
             </Section>
         </div>

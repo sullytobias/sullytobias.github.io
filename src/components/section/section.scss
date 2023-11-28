@@ -1,7 +1,12 @@
+@import '../../utils/styles/breakpoints';
+
 .Section {
-    padding: 50px;
     width: fit-content;
     display: flex;
     align-items: center;
     min-height: 100vh;
+
+    @include respond-to(md) {
+        padding: 50px;
+    }
 }

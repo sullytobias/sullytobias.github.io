@@ -4,7 +4,7 @@ import gsap from "gsap";
 
 import "./title.scss";
 
-const Title = ({ text, animationTime, delay }) => {
+const Title = ({ text, animationTime, delay, wrapped }) => {
     const ref = useRef(null);
 
     useEffect(() => {
@@ -21,8 +21,9 @@ const Title = ({ text, animationTime, delay }) => {
             }
         );
     }, []);
+
     return (
-        <h1 ref={ref} className="Title">
+        <h1 ref={ref} className={`Title ${wrapped && "wrapped"}`}>
             {text}
         </h1>
     );

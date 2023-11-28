@@ -15,14 +15,13 @@ const ScrollContainer = ({ children }) => {
                         gsap.to(containerRef.current, {
                             opacity: 1,
                             y: 0,
-                            duration: 1,
-                            ease: "power2.out",
+                            duration: 1.5,
                         });
                         observer.unobserve(entry.target);
                     }
                 });
             },
-            { threshold: 0.5 }
+            { threshold: 0.3 }
         );
 
         observer.observe(containerRef.current);
