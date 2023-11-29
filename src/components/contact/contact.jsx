@@ -2,8 +2,9 @@ import Icon from "../icon/icon";
 import Image from "../image/image";
 import Paragraph from "../paragraph/paragraph";
 import Title from "../title/title";
+import CopyToClipboardEmail from "./copyToClipboard/copyToClipboard";
+
 import "./contact.scss";
-import CopyToClipboardEmail from "./copyToClipBoard/copyToClipBoard";
 
 const Contact = () => {
     return (
