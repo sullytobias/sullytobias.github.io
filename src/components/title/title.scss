@@ -11,12 +11,11 @@
     width: fit-content;
     text-align: left;
     overflow: hidden;
-    white-space: nowrap;
+    margin-bottom: 50px;
 
-    &.wrapped {
-        white-space: wrap;
-        margin-bottom: 50px;
-     
+    &.noWrapped {
+        white-space: nowrap;
+        margin-bottom: 0;
         font-size: 1.8rem;
 
         @include respond-to(md) {

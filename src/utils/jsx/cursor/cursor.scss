@@ -1,6 +1,8 @@
 @import '../../styles/colors';
+@import '../../styles/breakpoints';
 
-.Cursor {
+@include respond-to(md) {
+  .Cursor {
     position: fixed;
     width: 25px;
     height: 25px;
@@ -21,3 +23,5 @@
     z-index: 5;
     mix-blend-mode: difference;
   }
+}
+

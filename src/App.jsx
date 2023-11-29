@@ -103,8 +103,14 @@ function App() {
             <Cursor />
             <Section anchor="home" className="App__introduction">
                 <div>
-                    <Title animationTime={2} delay={0.3} text="Hello 🫡" />
                     <Title
+                        noWrapped
+                        animationTime={2}
+                        delay={0.3}
+                        text="Hello 🫡"
+                    />
+                    <Title
+                        noWrapped
                         animationTime={2}
                         delay={0.6}
                         text="I am Sullivan Tobias"
@@ -126,14 +132,8 @@ function App() {
             <Separator />
             <ScrollContainer>
                 <Section anchor="about" title="About me">
-                    <Title
-                        wrapped
-                        text="I am deeply passionate about crafting intuitive and visually appealing user interfaces"
-                    />
-                    <Title
-                        wrapped
-                        text="With a fervor for staying on the cutting edge, I am enthusiastic about embracing new technologies and coding practices"
-                    />
+                    <Title text="I am deeply passionate about crafting intuitive and visually appealing user interfaces" />
+                    <Title text="With a fervor for staying on the cutting edge, I am enthusiastic about embracing new technologies and coding practices" />
                 </Section>
             </ScrollContainer>
             <Separator />
