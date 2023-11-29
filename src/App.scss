@@ -1,9 +1,5 @@
 @import './utils/styles/breakpoints';
 
-.App {
-
-}
-
 .App__introduction {
     display: flex;
     justify-content: space-between;
@@ -12,6 +8,10 @@
     @include respond-to(lg) {
         justify-content: space-evenly;
     }
+}
+
+.Skills__section {
+    align-items: flex-start;
 }
 
 .Portfolio__image {

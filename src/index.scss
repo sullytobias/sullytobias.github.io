@@ -2,6 +2,8 @@
 
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
+
 }
 
 body {
@@ -26,4 +28,9 @@ a {
   &:visited {
     color: inherit;
   }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
 }

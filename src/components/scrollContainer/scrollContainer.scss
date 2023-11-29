@@ -1,6 +1,9 @@
 .ScrollContainer {
     opacity: 0;
     font-size: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
     transform: translateY(100px);
     transition: opacity 1s, transform 1s;
   }

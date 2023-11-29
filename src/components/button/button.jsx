@@ -4,7 +4,7 @@ import gsap from "gsap";
 
 import "./button.scss";
 
-const Button = ({ text, delay }) => {
+const Button = ({ text, delay, anchor }) => {
     const buttonRef = useRef(null);
 
     useEffect(() => {
@@ -18,10 +18,10 @@ const Button = ({ text, delay }) => {
     }, []);
 
     return (
-        <button ref={buttonRef} className="Button hoverable">
+        <a href={`#${anchor}`} ref={buttonRef} className="Button hoverable">
             {text}
             <div className="gradient-border" />
-        </button>
+        </a>
     );
 };
 

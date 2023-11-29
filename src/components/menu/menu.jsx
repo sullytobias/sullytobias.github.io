@@ -6,6 +6,7 @@ import "./menu.scss";
 
 const MENU = [
     { label: "Home", anchor: "#home" },
+    { label: "About", anchor: "#about" },
     { label: "Works", anchor: "#works" },
     { label: "Skills", anchor: "#skills" },
     { label: "Contact", anchor: "#contact" },
@@ -51,7 +52,12 @@ const Menu = () => {
             </button>
             <div className={`Menu__content ${isMenuOpen ? "open" : ""}`}>
                 {MENU.map((item, index) => (
-                    <a key={index} href={item.anchor} className="hoverable">
+                    <a
+                        onClick={toggleMenu}
+                        key={index}
+                        href={item.anchor}
+                        className="hoverable"
+                    >
                         {item.label}
                     </a>
                 ))}

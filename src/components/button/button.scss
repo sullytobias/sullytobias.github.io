@@ -18,6 +18,10 @@
     margin-right: 24px;
     transition: all 0.3s ease;
     opacity: 0;
+
+    &:visited {
+      color: $white;
+    }
   
     &:hover {
       background: linear-gradient(45deg, $primary-color, $accent);
