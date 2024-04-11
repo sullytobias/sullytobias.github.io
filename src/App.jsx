@@ -20,7 +20,12 @@ const P_WORKS = [
         href: "https://sullivantobias.github.io/Crypto-Tracker/",
     },
     {
-        title: "Solar System",
+        title: "Solar System 3D",
+        image: "assets/solar3D.png",
+        href: "https://sullytobias.github.io/geovisu/",
+    },
+    {
+        title: "Solar System 2D",
         image: "assets/solar.png",
         href: "https://sullivantobias.github.io/solar-system/",
     },
