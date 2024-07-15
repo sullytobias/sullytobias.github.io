@@ -1,5 +1,5 @@
 // src/App.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Canvas } from "@react-three/fiber";
 
@@ -8,7 +8,21 @@ import Loader from "./components/Loader/Loader";
 import SphereWorld from "./components/SphereWorld/SphereWorld";
 import FloatingText from "./components/FloatingText/FloatingText";
 
+import { LOADING_TEXT } from "./utils/constants";
+
 const App: React.FC = () => {
+    const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
+    const [isLoaderVisible, setIsLoaderVisible] = useState(true);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setLoadingText(LOADING_TEXT.loaded);
+            setIsLoaderVisible(false);
+        }, 5000);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
+
     return (
         <div style={{ height: "100vh", width: "100vw", position: "relative" }}>
             <Canvas camera={{ position: [0, 0, 10] }}>
@@ -16,9 +30,9 @@ const App: React.FC = () => {
                 <directionalLight position={[3, 3, 3]} />
                 <SpinningTriangle />
                 <SphereWorld />
-                <FloatingText />
+                <FloatingText text={loadingText} />
             </Canvas>
-            <Loader />
+            {isLoaderVisible && <Loader />}
         </div>
     );
 };

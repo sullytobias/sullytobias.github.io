@@ -6,7 +6,7 @@ import { Mesh } from "three";
 const SpinningTriangle: React.FC = () => {
     const meshRef = useRef<Mesh>(null!);
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
         if (meshRef.current) meshRef.current.rotation.y += delta * 2;
     });
 

@@ -5,7 +5,7 @@
     left: 50%;
     transform: translate(-50%, -20%);
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     background: rgba(255, 255, 255, 0.1);
     height: 4px;
     overflow: hidden;
@@ -19,12 +19,12 @@
   
       &.left {
         left: 50%;
-        animation: load 1.5s infinite;
+        animation: load 2.5s infinite;
       }
   
       &.right {
         right: 50%;
-        animation: load 1.5s infinite;
+        animation: load 2.5s infinite; 
       }
     }
   }
