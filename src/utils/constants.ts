@@ -1,4 +1,4 @@
 export const LOADING_TEXT = {
     loading: "Loading Space",
-    loaded: "Enter",
+    loaded: "Click the cone",
 };
