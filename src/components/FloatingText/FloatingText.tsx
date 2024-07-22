@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-import { Vector3, Mesh } from "three";
+import { Vector3, Mesh, Object3D } from "three";
 
 import { useSpring, animated } from "@react-spring/three";
 
@@ -15,6 +15,7 @@ const FloatingText = ({ text }: FloatingTextTypes) => {
     const { opacity } = useSpring({
         from: { opacity: 0 },
         to: { opacity: 1 },
+        config: { duration: 2000 },
         reset: true,
     });
 
@@ -41,9 +42,9 @@ const FloatingText = ({ text }: FloatingTextTypes) => {
     });
 
     return (
-        <animated.mesh ref={meshRef} material={{ transparent: true }}>
+        <animated.mesh ref={meshRef}>
             <Text
-                color="white"
+                color="black"
                 fontSize={0.4}
                 maxWidth={200}
                 lineHeight={1}
