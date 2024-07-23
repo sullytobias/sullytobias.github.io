@@ -2,15 +2,17 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-import { Vector3, Mesh, Object3D } from "three";
 
-import { useSpring, animated } from "@react-spring/three";
+import { useSpring, animated, SpringValue } from "@react-spring/three";
+
+import { Vector3, Mesh } from "three";
 
 type FloatingTextTypes = {
     text: string;
+    overridedOpacity: SpringValue<number>;
 };
 
-const FloatingText = ({ text }: FloatingTextTypes) => {
+const FloatingText = ({ text, overridedOpacity }: FloatingTextTypes) => {
     const meshRef = useRef<Mesh>(null!);
     const { opacity } = useSpring({
         from: { opacity: 0 },
@@ -19,10 +21,8 @@ const FloatingText = ({ text }: FloatingTextTypes) => {
         reset: true,
     });
 
-    // Add mouse movement interaction
     useFrame(({ pointer }) => {
         if (meshRef.current) {
-            // Adjust the movement scale based on mouse position
             const movementScale = 0.5;
             const targetPosition = new Vector3(
                 pointer.x * movementScale,
@@ -30,13 +30,11 @@ const FloatingText = ({ text }: FloatingTextTypes) => {
                 0
             );
 
-            // Smoothly move the mesh towards the target position
             meshRef.current.position.lerp(targetPosition, 0.1);
 
-            meshRef.current.children.forEach((child: any) => {
-                if (child.material) {
-                    child.material.opacity = opacity.get();
-                }
+            meshRef.current.children.forEach(({ material }) => {
+                if (material)
+                    material.opacity = overridedOpacity.get() ?? opacity.get();
             });
         }
     });
@@ -44,7 +42,7 @@ const FloatingText = ({ text }: FloatingTextTypes) => {
     return (
         <animated.mesh ref={meshRef}>
             <Text
-                color="black"
+                color="#FFFC31"
                 fontSize={0.4}
                 maxWidth={200}
                 lineHeight={1}

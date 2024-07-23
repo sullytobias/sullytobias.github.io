@@ -7,6 +7,8 @@ import SpinningSphere from "./components/SpinningSphere/SpinningSphere";
 import Loader from "./components/Loader/Loader";
 import SphereWorld from "./components/SphereWorld/SphereWorld";
 import FloatingText from "./components/FloatingText/FloatingText";
+import TypingText from "./components/TypingText/TypingText";
+
 import { LOADING_TEXT } from "./utils/constants";
 
 const App: React.FC = () => {
@@ -30,11 +32,13 @@ const App: React.FC = () => {
     return (
         <div style={{ height: "100vh", width: "100vw", position: "relative" }}>
             <Canvas camera={{ position: [0, 0, 10] }}>
-                <ambientLight intensity={0.2} />
-                <directionalLight position={[3, 3, 3]} />
+                <ambientLight intensity={1} />
                 <SpinningSphere opacity={opacity} />
                 <SphereWorld />
-                <FloatingText text={loadingText} />
+                <FloatingText overridedOpacity={opacity} text={loadingText} />
+                {!isLoaderVisible && (
+                    <TypingText text="Hello, I'm a front-end developper passionate about creating stunning web experiences." />
+                )}
             </Canvas>
             {isLoaderVisible && <Loader />}
         </div>

@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
+
 import { useFrame } from "@react-three/fiber";
+import { animated, SpringValue } from "@react-spring/three";
+
 import { Mesh } from "three";
-import { animated } from "@react-spring/three";
-import { SpringValue } from "@react-spring/three";
 
 type SpinningSphereProps = {
     opacity: SpringValue<number>;
@@ -17,13 +18,12 @@ const SpinningSphere: React.FC<SpinningSphereProps> = ({ opacity }) => {
 
     return (
         <mesh ref={meshRef}>
-            <sphereGeometry args={[100, 32, 32]} />
+            <sphereGeometry args={[10, 16, 16]} />
             <animated.meshStandardMaterial
                 opacity={opacity}
                 transparent
                 wireframe
-                wireframeLinewidth={0.2}
-                color="#61dafb"
+                color="#F6F7EB"
             />
         </mesh>
     );

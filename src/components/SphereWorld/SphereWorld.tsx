@@ -4,7 +4,7 @@ const SphereWorld: React.FC = () => {
     return (
         <mesh>
             <sphereGeometry args={[100, 64, 64]} />
-            <meshBasicMaterial side={1} />
+            <meshBasicMaterial color="#393E41" side={1} />
         </mesh>
     );
 };
