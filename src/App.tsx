@@ -9,6 +9,7 @@ import LightButton from "./components/LightButton/LightButton";
 
 import { LOADING_TEXT } from "./utils/constants";
 import { animated } from "@react-spring/three";
+import Card from "./components/Card/Card";
 
 const App: React.FC = () => {
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
@@ -22,7 +23,7 @@ const App: React.FC = () => {
     });
 
     const { intensity } = useSpring({
-        intensity: lightOn ? 10 : 0.1,
+        intensity: lightOn ? 10 : 0,
         config: { duration: 10000 },
     });
 
@@ -57,13 +58,18 @@ const App: React.FC = () => {
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
                 {!isLoaderVisible && (
                     <>
-                        <TypingText
-                            text="Hello, I'm a front-end developer passionate about creating stunning web experiences."
-                            onComplete={handleTextComplete}
-                        />
+                        {!lightOn && (
+                            <TypingText
+                                text="Hello, I'm a front-end developer passionate about creating stunning web experiences."
+                                onComplete={handleTextComplete}
+                            />
+                        )}
                         {showButton && (
                             <LightButton onClick={handleButtonClick} />
                         )}
+                        <Card lightOn={lightOn} position={[-5, 5, 0]} />
+                        <Card lightOn={lightOn} position={[0, 5, 0]} />
+                        <Card lightOn={lightOn} position={[5, 5, 0]} />
                     </>
                 )}
             </Canvas>

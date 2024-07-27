@@ -45,7 +45,7 @@ const TypingText: React.FC<TypingTextProps> = ({ text, onComplete }) => {
                 textAlign="center"
                 position={[0, 0, 0]} // Adjust the position as needed
             >
-                <animated.meshStandardMaterial opacity={opacity} transparent />
+                <animated.meshBasicMaterial opacity={opacity} transparent />
                 {displayedText}
             </Text>
         </animated.mesh>
