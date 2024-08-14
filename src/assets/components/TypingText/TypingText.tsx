@@ -16,11 +16,9 @@ const TypingText: React.FC<TypingTextProps> = ({ text, onComplete }) => {
             const timeoutId = setTimeout(() => {
                 setDisplayedText((prev) => prev + text[index]);
                 setIndex((prev) => prev + 1);
-            }, 100); // Adjust typing speed here
+            }, 100);
             return () => clearTimeout(timeoutId);
-        } else {
-            onComplete();
-        }
+        } else onComplete();
     }, [index, text, onComplete]);
 
     const { opacity } = useSpring({
@@ -29,9 +27,9 @@ const TypingText: React.FC<TypingTextProps> = ({ text, onComplete }) => {
     });
 
     const getMaxWidth = () => {
-        if (window.innerWidth < 600) return 5; // Mobile
-        if (window.innerWidth < 1200) return 8; // Tablet
-        return 10; // Desktop
+        if (window.innerWidth < 600) return 5;
+        if (window.innerWidth < 1200) return 8;
+        return 10;
     };
 
     return (
@@ -43,7 +41,7 @@ const TypingText: React.FC<TypingTextProps> = ({ text, onComplete }) => {
                 lineHeight={2}
                 letterSpacing={0.02}
                 textAlign="center"
-                position={[0, 0, 0]} // Adjust the position as needed
+                position={[0, 0, 0]}
             >
                 <animated.meshBasicMaterial opacity={opacity} transparent />
                 {displayedText}

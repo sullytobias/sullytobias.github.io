@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 
-import Loader from "./components/Loader/Loader";
-import FloatingText from "./components/FloatingText/FloatingText";
-import TypingText from "./components/TypingText/TypingText";
-import LightButton from "./components/LightButton/LightButton";
+import Loader from "./assets/components/Loader/Loader";
+import FloatingText from "./assets/components/FloatingText/FloatingText";
+import TypingText from "./assets/components/TypingText/TypingText";
+import LightButton from "./assets/components/LightButton/LightButton";
 
 import { LOADING_TEXT } from "./utils/constants";
 import { animated } from "@react-spring/three";
-import Card from "./components/Card/Card";
+import GroupCard from "./assets/components/GroupCard/GroupCard";
 
 const App: React.FC = () => {
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
@@ -23,9 +23,12 @@ const App: React.FC = () => {
     });
 
     const { intensity } = useSpring({
-        intensity: lightOn ? 10 : 0,
-        config: { duration: 10000 },
+        intensity: lightOn ? 100 : 0,
+        config: { duration: 1000 },
     });
+
+    const handleTextComplete = () => setShowButton(true);
+    const handleButtonClick = () => setLightOn(true);
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -36,25 +39,21 @@ const App: React.FC = () => {
         return () => clearTimeout(timeoutId);
     }, []);
 
-    const handleTextComplete = () => {
-        setShowButton(true);
-    };
-
-    const handleButtonClick = () => {
-        setLightOn(true);
-    };
-
     return (
         <div
             style={{
                 height: "100vh",
                 width: "100vw",
                 position: "relative",
-                backgroundColor: "black",
+                backgroundColor: "#171717",
             }}
         >
             <Canvas camera={{ position: [0, 0, 10] }}>
-                <animated.ambientLight intensity={intensity} />
+                <ambientLight intensity={0.2} />
+                <animated.spotLight
+                    intensity={intensity}
+                    position={[0, 7, 0]}
+                />
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
                 {!isLoaderVisible && (
                     <>
@@ -64,12 +63,10 @@ const App: React.FC = () => {
                                 onComplete={handleTextComplete}
                             />
                         )}
-                        {showButton && (
+                        {showButton && !lightOn && (
                             <LightButton onClick={handleButtonClick} />
                         )}
-                        <Card lightOn={lightOn} position={[-5, 5, 0]} />
-                        <Card lightOn={lightOn} position={[0, 5, 0]} />
-                        <Card lightOn={lightOn} position={[5, 5, 0]} />
+                        <GroupCard lightOn={lightOn} />
                     </>
                 )}
             </Canvas>

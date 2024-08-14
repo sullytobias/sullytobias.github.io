@@ -23,7 +23,7 @@ const LightButton: React.FC<LightButtonProps> = ({ onClick }) => {
     return (
         <mesh ref={meshRef} onClick={onClick}>
             <boxGeometry args={[2, 2, 0]} />
-            <meshStandardMaterial transparent wireframe />
+            <meshBasicMaterial wireframe />
             <Text
                 color="white"
                 fontSize={0.3}
