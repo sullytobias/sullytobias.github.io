@@ -6,9 +6,10 @@ import { useSpring } from "@react-spring/three";
 
 type GroupCardProps = {
     lightOn: boolean;
+    onCardClick: (position: [number, number, number]) => void;
 };
 
-const GroupCard: React.FC<GroupCardProps> = ({ lightOn }) => {
+const GroupCard: React.FC<GroupCardProps> = ({ lightOn, onCardClick }) => {
     const meshRef = useRef<Mesh>(null!);
 
     const { positionY } = useSpring({
@@ -18,7 +19,6 @@ const GroupCard: React.FC<GroupCardProps> = ({ lightOn }) => {
 
     useFrame(({ clock }) => {
         const time = clock.getElapsedTime();
-
         if (meshRef.current)
             meshRef.current.position.y =
                 positionY.get() + Math.sin(time * 2) * 0.2;
@@ -26,9 +26,18 @@ const GroupCard: React.FC<GroupCardProps> = ({ lightOn }) => {
 
     return (
         <group ref={meshRef} position={[0, positionY.get(), -2]}>
-            <Card positionX={0} />
-            <Card positionX={-6} />
-            <Card positionX={6} />
+            <Card
+                positionX={0}
+                onClick={() => onCardClick([0, positionY.get(), -2])}
+            />
+            <Card
+                positionX={-6}
+                onClick={() => onCardClick([-6, positionY.get(), -2])}
+            />
+            <Card
+                positionX={6}
+                onClick={() => onCardClick([6, positionY.get(), -2])}
+            />
         </group>
     );
 };

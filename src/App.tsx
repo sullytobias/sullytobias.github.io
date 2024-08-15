@@ -2,20 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 
-import Loader from "./assets/components/Loader/Loader";
-import FloatingText from "./assets/components/FloatingText/FloatingText";
-import TypingText from "./assets/components/TypingText/TypingText";
-import LightButton from "./assets/components/LightButton/LightButton";
+import Loader from "./components/Loader/Loader";
+import FloatingText from "./components/FloatingText/FloatingText";
+import TypingText from "./components/TypingText/TypingText";
+import LightButton from "./components/LightButton/LightButton";
+import GroupCard from "./components/GroupCard/GroupCard";
+import CameraController from "./components/CameraController/CameraController";
 
 import { LOADING_TEXT } from "./utils/constants";
-import { animated } from "@react-spring/three";
-import GroupCard from "./assets/components/GroupCard/GroupCard";
+import SpotLight from "./components/Lights/Spotlight/Spotlight";
 
 const App: React.FC = () => {
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const [showButton, setShowButton] = useState(false);
     const [lightOn, setLightOn] = useState(false);
+    const [enteringSphere, setEnteringSphere] = useState(false);
+    const [targetPosition, setTargetPosition] = useState<
+        [number, number, number]
+    >([0, 0, 10]);
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -29,6 +34,11 @@ const App: React.FC = () => {
 
     const handleTextComplete = () => setShowButton(true);
     const handleButtonClick = () => setLightOn(true);
+
+    const handleCardClick = (position: [number, number, number]) => {
+        setTargetPosition(position);
+        setEnteringSphere(true);
+    };
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -50,9 +60,10 @@ const App: React.FC = () => {
         >
             <Canvas camera={{ position: [0, 0, 10] }}>
                 <ambientLight intensity={0.2} />
-                <animated.spotLight
-                    intensity={intensity}
-                    position={[0, 7, 0]}
+                <SpotLight intensity={intensity} />
+                <CameraController
+                    enteringSphere={enteringSphere}
+                    targetPosition={targetPosition}
                 />
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
                 {!isLoaderVisible && (
@@ -66,7 +77,10 @@ const App: React.FC = () => {
                         {showButton && !lightOn && (
                             <LightButton onClick={handleButtonClick} />
                         )}
-                        <GroupCard lightOn={lightOn} />
+                        <GroupCard
+                            lightOn={lightOn}
+                            onCardClick={handleCardClick}
+                        />
                     </>
                 )}
             </Canvas>
