@@ -8,9 +8,9 @@ import TypingText from "./components/TypingText/TypingText";
 import LightButton from "./components/LightButton/LightButton";
 import GroupCard from "./components/GroupCard/GroupCard";
 import CameraController from "./components/CameraController/CameraController";
-
-import { LOADING_TEXT } from "./utils/constants";
 import SpotLight from "./components/Lights/Spotlight/Spotlight";
+
+import { CATEGORIES, LOADING_TEXT } from "./utils/constants";
 
 const App: React.FC = () => {
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
@@ -60,7 +60,7 @@ const App: React.FC = () => {
         >
             <Canvas camera={{ position: [0, 0, 10] }}>
                 <ambientLight intensity={0.2} />
-                <SpotLight intensity={intensity} />
+                {!enteringSphere && <SpotLight intensity={intensity} />}
                 <CameraController
                     enteringSphere={enteringSphere}
                     targetPosition={targetPosition}
@@ -79,7 +79,8 @@ const App: React.FC = () => {
                         )}
                         <GroupCard
                             lightOn={lightOn}
-                            onCardClick={handleCardClick}
+                            onCardClick={lightOn ? handleCardClick : undefined}
+                            categories={CATEGORIES}
                         />
                     </>
                 )}

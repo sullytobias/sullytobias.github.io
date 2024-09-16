@@ -1,13 +1,14 @@
 import React, { useRef } from "react";
-import { Mesh } from "three";
+import { DoubleSide, Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
 
 type CardProps = {
     positionX: number;
     onClick: () => void;
+    isWireframe: boolean;
 };
 
-const Card: React.FC<CardProps> = ({ positionX, onClick }) => {
+const Card: React.FC<CardProps> = ({ positionX, onClick, isWireframe }) => {
     const meshRef = useRef<Mesh>(null!);
 
     useFrame(() => {
@@ -19,7 +20,11 @@ const Card: React.FC<CardProps> = ({ positionX, onClick }) => {
     return (
         <mesh ref={meshRef} position-x={positionX} onClick={onClick}>
             <sphereGeometry args={[2, 32, 32]} />
-            <meshStandardMaterial color="#FFFC31" wireframe />
+            <meshStandardMaterial
+                side={DoubleSide}
+                color="#FFFC31"
+                wireframe={isWireframe}
+            />
         </mesh>
     );
 };
