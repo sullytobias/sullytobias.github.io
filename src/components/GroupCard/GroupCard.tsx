@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Card from "../Card/Card";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-import { Mesh } from "three";
+import { Group } from "three";
 import { useSpring, animated } from "@react-spring/three";
 
 type CategoriesTypes = {
@@ -21,7 +21,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
     onCardClick,
     categories,
 }) => {
-    const meshRef = useRef<Mesh>(null!);
+    const meshRef = useRef<Group>(null!);
     const [showText, setShowText] = useState(false);
 
     const { positionY } = useSpring({
