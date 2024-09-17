@@ -1,5 +1,5 @@
 import { useRef, FC } from "react";
-import { Mesh } from "three";
+import { SpotLight as SpotLightType } from "three";
 import { useFrame } from "@react-three/fiber";
 import { animated, SpringValue } from "@react-spring/three";
 
@@ -8,7 +8,7 @@ type CardProps = {
 };
 
 const SpotLight: FC<CardProps> = ({ intensity }) => {
-    const lightRef = useRef<Mesh>(null!);
+    const lightRef = useRef<SpotLightType>(null!);
 
     useFrame(({ clock: { elapsedTime } }) => {
         if (lightRef.current) {
