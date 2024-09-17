@@ -24,14 +24,11 @@ const CameraController: React.FC<CameraControllerProps> = ({
     });
 
     useFrame(() => {
-        const camPos = cameraPosition.get();
-        const lookPos = lookAtPosition.get();
+        const [x, y, z] = cameraPosition.get();
+        const [lookX, lookY, lookZ] = lookAtPosition.get();
 
-        camera.position.lerp(
-            vec.current.set(camPos[0], camPos[1], camPos[2]),
-            0.05
-        );
-        camera.lookAt(vec.current.set(lookPos[0], lookPos[1], lookPos[2]));
+        camera.position.lerp(vec.current.set(x, y, z), 0.05);
+        camera.lookAt(vec.current.set(lookX, lookY, lookZ));
     });
 
     return null;
