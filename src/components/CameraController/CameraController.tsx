@@ -16,7 +16,6 @@ const CameraController: FC<CameraControllerProps> = ({
     const { camera } = useThree();
     const vec = useRef(new Vector3());
 
-    // Declare spring values for camera position and lookAt position
     const { cameraPosition, lookAtPosition } = useSpring({
         cameraPosition: enteringSphere ? targetPosition : [0, 0, 10],
         lookAtPosition: enteringSphere ? targetPosition : [0, 0, 0],

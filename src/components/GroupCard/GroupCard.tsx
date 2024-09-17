@@ -51,12 +51,12 @@ const GroupCard: FC<GroupCardProps> = ({
                         onClick={() =>
                             onCardClick?.([cardPositionX, positionY.get(), -2])
                         }
-                        isWireframe={!lightOn} // Ensure wireframe is off when light is on
+                        isWireframe={!lightOn}
                     />
                     {lightOn && (
                         <animated.mesh>
                             <Text
-                                position={[cardPositionX, -2.5, 0]} // Adjust the Y position to appear below the sphere
+                                position={[cardPositionX, -2.5, 0]}
                                 fontSize={0.5}
                                 color="white"
                                 anchorX="center"

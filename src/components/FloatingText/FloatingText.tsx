@@ -1,4 +1,3 @@
-// src/components/MovingText.tsx
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
