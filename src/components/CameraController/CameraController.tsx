@@ -1,6 +1,6 @@
 import { useSpring } from "@react-spring/three";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useRef, FC } from "react";
 import { Vector3 } from "three";
 import { useThree } from "@react-three/fiber";
 
@@ -9,7 +9,7 @@ type CameraControllerProps = {
     enteringSphere: boolean;
 };
 
-const CameraController: React.FC<CameraControllerProps> = ({
+const CameraController: FC<CameraControllerProps> = ({
     enteringSphere,
     targetPosition,
 }) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 
@@ -12,7 +12,7 @@ import SpotLight from "./components/Lights/Spotlight/Spotlight";
 
 import { CATEGORIES, LOADING_TEXT } from "./utils/constants";
 
-const App: React.FC = () => {
+const App: FC = () => {
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const [showButton, setShowButton] = useState(false);

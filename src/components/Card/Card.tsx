@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef, FC } from "react";
 import { DoubleSide, Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
 
@@ -8,7 +8,7 @@ type CardProps = {
     isWireframe: boolean;
 };
 
-const Card: React.FC<CardProps> = ({ positionX, onClick, isWireframe }) => {
+const Card: FC<CardProps> = ({ positionX, onClick, isWireframe }) => {
     const meshRef = useRef<Mesh>(null!);
 
     useFrame(() => {

@@ -1,5 +1,4 @@
-// src/components/ThreeDButton.tsx
-import React from "react";
+import { FC, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Mesh } from "three";
 import { Text } from "@react-three/drei";
@@ -8,8 +7,8 @@ type LightButtonProps = {
     onClick: () => void;
 };
 
-const LightButton: React.FC<LightButtonProps> = ({ onClick }) => {
-    const meshRef = React.useRef<Mesh>(null!);
+const LightButton: FC<LightButtonProps> = ({ onClick }) => {
+    const meshRef = useRef<Mesh>(null!);
 
     useFrame(({ clock }) => {
         const time = clock.getElapsedTime();

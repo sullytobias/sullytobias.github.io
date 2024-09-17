@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState, FC } from "react";
 import Card from "../Card/Card";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
@@ -16,7 +16,7 @@ type GroupCardProps = {
     categories: CategoriesTypes[];
 };
 
-const GroupCard: React.FC<GroupCardProps> = ({
+const GroupCard: FC<GroupCardProps> = ({
     lightOn,
     onCardClick,
     categories,

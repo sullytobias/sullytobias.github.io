@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { Text } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
 
@@ -7,7 +7,7 @@ type TypingTextProps = {
     onComplete: () => void;
 };
 
-const TypingText: React.FC<TypingTextProps> = ({ text, onComplete }) => {
+const TypingText: FC<TypingTextProps> = ({ text, onComplete }) => {
     const [displayedText, setDisplayedText] = useState("");
     const [index, setIndex] = useState(0);
 
