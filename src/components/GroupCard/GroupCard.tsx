@@ -1,4 +1,4 @@
-import { useRef, useState, FC } from "react";
+import React, { useRef, useState } from "react";
 import Card from "../Card/Card";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
@@ -8,18 +8,21 @@ import { useSpring, animated } from "@react-spring/three";
 type CategoriesTypes = {
     cardPositionX: number;
     categoryTitle: string;
+    cardColor: string;
 };
 
 type GroupCardProps = {
     lightOn: boolean;
-    onCardClick?: (position: [number, number, number]) => void;
+    onCardClick?: (position: [number, number, number], index: number) => void;
     categories: CategoriesTypes[];
+    activeCardIndex: number;
 };
 
-const GroupCard: FC<GroupCardProps> = ({
+const GroupCard: React.FC<GroupCardProps> = ({
     lightOn,
     onCardClick,
     categories,
+    activeCardIndex,
 }) => {
     const meshRef = useRef<Group>(null!);
     const [showText, setShowText] = useState(false);
@@ -44,34 +47,40 @@ const GroupCard: FC<GroupCardProps> = ({
 
     return (
         <animated.group ref={meshRef} position={[0, positionY.get(), -2]}>
-            {categories.map(({ cardPositionX, categoryTitle }) => (
-                <group key={categoryTitle}>
-                    <Card
-                        positionX={cardPositionX}
-                        onClick={() =>
-                            onCardClick?.([cardPositionX, positionY.get(), -2])
-                        }
-                        isWireframe={!lightOn}
-                    />
-                    {lightOn && (
-                        <animated.mesh>
-                            <Text
-                                position={[cardPositionX, -2.5, 0]}
-                                fontSize={0.5}
-                                color="white"
-                                anchorX="center"
-                                anchorY="middle"
-                            >
-                                <animated.meshStandardMaterial
-                                    opacity={opacity}
-                                    transparent
-                                />
-                                {categoryTitle}
-                            </Text>
-                        </animated.mesh>
-                    )}
-                </group>
-            ))}
+            {categories.map(
+                ({ cardPositionX, categoryTitle, cardColor }, index) => (
+                    <group key={categoryTitle}>
+                        <Card
+                            positionX={cardPositionX}
+                            onClick={() =>
+                                onCardClick?.(
+                                    [cardPositionX, positionY.get(), -2],
+                                    index
+                                )
+                            }
+                            enteringSphere={index === activeCardIndex}
+                            cardColor={cardColor}
+                        />
+                        {lightOn && (
+                            <animated.mesh>
+                                <Text
+                                    position={[cardPositionX, -2.5, 0]}
+                                    fontSize={0.5}
+                                    color="white"
+                                    anchorX="center"
+                                    anchorY="middle"
+                                >
+                                    <animated.meshStandardMaterial
+                                        opacity={opacity}
+                                        transparent
+                                    />
+                                    {categoryTitle}
+                                </Text>
+                            </animated.mesh>
+                        )}
+                    </group>
+                )
+            )}
         </animated.group>
     );
 };

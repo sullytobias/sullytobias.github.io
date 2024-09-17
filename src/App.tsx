@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react";
+import { useState, useEffect, FC } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 
@@ -9,6 +9,7 @@ import LightButton from "./components/LightButton/LightButton";
 import GroupCard from "./components/GroupCard/GroupCard";
 import CameraController from "./components/CameraController/CameraController";
 import SpotLight from "./components/Lights/Spotlight/Spotlight";
+import Space from "./components/Space/Space"; // Import Space component
 
 import { CATEGORIES, LOADING_TEXT } from "./utils/constants";
 
@@ -21,6 +22,7 @@ const App: FC = () => {
     const [targetPosition, setTargetPosition] = useState<
         [number, number, number]
     >([0, 0, 10]);
+    const [activeCardIndex, setActiveCardIndex] = useState<number>(-1); // Track active card index
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -32,12 +34,21 @@ const App: FC = () => {
         config: { duration: 1000 },
     });
 
+    const { spaceOpacity } = useSpring({
+        spaceOpacity: enteringSphere ? 1 : 0,
+        config: { duration: 4000 },
+    });
+
     const handleTextComplete = () => setShowButton(true);
     const handleButtonClick = () => setLightOn(true);
 
-    const handleCardClick = (position: [number, number, number]) => {
+    const handleCardClick = (
+        position: [number, number, number],
+        index: number
+    ) => {
         setTargetPosition(position);
         setEnteringSphere(true);
+        setActiveCardIndex(index);
     };
 
     useEffect(() => {
@@ -66,6 +77,14 @@ const App: FC = () => {
                     targetPosition={targetPosition}
                 />
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
+
+                {enteringSphere && activeCardIndex !== -1 && (
+                    <Space
+                        opacity={spaceOpacity}
+                        color={CATEGORIES[activeCardIndex].cardColor}
+                    />
+                )}
+
                 {!isLoaderVisible && (
                     <>
                         {!lightOn && (
@@ -79,8 +98,9 @@ const App: FC = () => {
                         )}
                         <GroupCard
                             lightOn={lightOn}
-                            onCardClick={lightOn ? handleCardClick : undefined}
                             categories={CATEGORIES}
+                            onCardClick={lightOn ? handleCardClick : undefined}
+                            activeCardIndex={activeCardIndex}
                         />
                     </>
                 )}
