@@ -1,5 +1,4 @@
 import { useState, useEffect, FC } from "react";
-
 import { Canvas } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 
@@ -53,7 +52,7 @@ const App: FC = () => {
     };
 
     const handleCrossClick = () => {
-        setTargetPosition([0, 0, 10]); // Reset camera to original position
+        setTargetPosition([0, 0, 10]);
         setEnteringSphere(false);
         setActiveCardIndex(-1);
     };
@@ -86,12 +85,16 @@ const App: FC = () => {
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
 
                 {enteringSphere && activeCardIndex !== -1 && (
-                    <>
-                        <Space
-                            opacity={spaceOpacity}
-                            color={CATEGORIES[activeCardIndex].cardColor}
-                        />
-                    </>
+                    <Space
+                        opacity={spaceOpacity}
+                        color={CATEGORIES[activeCardIndex].cardColor}
+                        activeCategory={
+                            CATEGORIES[activeCardIndex].categoryTitle
+                        }
+                        cardPositionX={
+                            CATEGORIES[activeCardIndex].cardPositionX
+                        }
+                    />
                 )}
 
                 {!isLoaderVisible && (

@@ -54,7 +54,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
                             positionX={cardPositionX}
                             onClick={() =>
                                 onCardClick?.(
-                                    [cardPositionX, positionY.get(), -2],
+                                    [cardPositionX, positionY.get(), 0],
                                     index
                                 )
                             }

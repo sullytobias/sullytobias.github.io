@@ -20,7 +20,7 @@ const Card: FC<CardProps> = ({
 
     const { scale } = useSpring({
         scale: enteringSphere ? [3, 3, 3] : [1, 1, 1],
-        config: { mass: 1, tension: 100, friction: 20, duration: 1000 },
+        config: { duration: 1000 },
     });
 
     useFrame(() => {
@@ -34,7 +34,7 @@ const Card: FC<CardProps> = ({
             onClick={onClick}
             scale={scale}
         >
-            <boxGeometry args={[2, 2, 2]} />
+            <boxGeometry args={[2, 2, 2, 2, 2, 3]} />
             <meshStandardMaterial
                 side={DoubleSide}
                 color={cardColor}
