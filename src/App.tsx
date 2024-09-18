@@ -1,4 +1,5 @@
 import { useState, useEffect, FC } from "react";
+
 import { Canvas } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 
@@ -9,7 +10,7 @@ import LightButton from "./components/LightButton/LightButton";
 import GroupCard from "./components/GroupCard/GroupCard";
 import CameraController from "./components/CameraController/CameraController";
 import SpotLight from "./components/Lights/Spotlight/Spotlight";
-import Space from "./components/Space/Space"; // Import Space component
+import Space from "./components/Space/Space";
 
 import { CATEGORIES, LOADING_TEXT } from "./utils/constants";
 
@@ -22,7 +23,7 @@ const App: FC = () => {
     const [targetPosition, setTargetPosition] = useState<
         [number, number, number]
     >([0, 0, 10]);
-    const [activeCardIndex, setActiveCardIndex] = useState<number>(-1); // Track active card index
+    const [activeCardIndex, setActiveCardIndex] = useState<number>(-1);
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -36,7 +37,7 @@ const App: FC = () => {
 
     const { spaceOpacity } = useSpring({
         spaceOpacity: enteringSphere ? 1 : 0,
-        config: { duration: 4000 },
+        config: { duration: 2000 },
     });
 
     const handleTextComplete = () => setShowButton(true);
@@ -49,6 +50,12 @@ const App: FC = () => {
         setTargetPosition(position);
         setEnteringSphere(true);
         setActiveCardIndex(index);
+    };
+
+    const handleCrossClick = () => {
+        setTargetPosition([0, 0, 10]); // Reset camera to original position
+        setEnteringSphere(false);
+        setActiveCardIndex(-1);
     };
 
     useEffect(() => {
@@ -79,10 +86,12 @@ const App: FC = () => {
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
 
                 {enteringSphere && activeCardIndex !== -1 && (
-                    <Space
-                        opacity={spaceOpacity}
-                        color={CATEGORIES[activeCardIndex].cardColor}
-                    />
+                    <>
+                        <Space
+                            opacity={spaceOpacity}
+                            color={CATEGORIES[activeCardIndex].cardColor}
+                        />
+                    </>
                 )}
 
                 {!isLoaderVisible && (
@@ -106,6 +115,23 @@ const App: FC = () => {
                 )}
             </Canvas>
             {isLoaderVisible && <Loader />}
+
+            {enteringSphere && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: "20px",
+                        right: "20px",
+                        zIndex: 1000,
+                        cursor: "pointer",
+                        color: "white",
+                        fontSize: "2rem",
+                    }}
+                    onClick={handleCrossClick}
+                >
+                    ✖
+                </div>
+            )}
         </div>
     );
 };
