@@ -1,5 +1,5 @@
 import { useRef, FC } from "react";
-import { DoubleSide, Mesh } from "three";
+import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/three";
 
@@ -24,7 +24,7 @@ const Card: FC<CardProps> = ({
     });
 
     useFrame(() => {
-        if (meshRef.current) meshRef.current.rotation.y += 5 / 1000;
+        if (meshRef.current) meshRef.current.rotation.y += 0.01;
     });
 
     return (
@@ -34,12 +34,8 @@ const Card: FC<CardProps> = ({
             onClick={onClick}
             scale={scale}
         >
-            <boxGeometry args={[2, 2, 2, 2, 2, 3]} />
-            <meshStandardMaterial
-                side={DoubleSide}
-                color={cardColor}
-                wireframe
-            />
+            <boxGeometry args={[2, 2, 2]} />
+            <meshStandardMaterial color={cardColor} wireframe />
         </animated.mesh>
     );
 };

@@ -1,5 +1,5 @@
 function getRandomColor(): string {
-    const randomValue = () => Math.floor(Math.random() * 256); // Generates a random value between 0 and 255
+    const randomValue = () => Math.floor(Math.random() * 256);
     const red = randomValue();
     const green = randomValue();
     const blue = randomValue();

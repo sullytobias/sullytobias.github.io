@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from "react";
+import { FC, Fragment, useMemo } from "react";
 import { animated, SpringValue } from "@react-spring/three";
 import { Text, Float } from "@react-three/drei";
 import { DoubleSide } from "three";
@@ -7,18 +7,12 @@ type SpaceProps = {
     color: string;
     opacity: SpringValue<number>;
     activeCategory: string;
-    cardPositionX: number;
 };
 
-const Space: React.FC<SpaceProps> = ({
-    color,
-    opacity,
-    activeCategory,
-    cardPositionX,
-}) => {
+const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
     const contactInfo = useMemo(
         () => (
-            <group position={[cardPositionX, 0, -2]}>
+            <Fragment>
                 <Text
                     fontSize={0.5}
                     position={[0, 1.5, 0]}
@@ -46,14 +40,14 @@ const Space: React.FC<SpaceProps> = ({
                 >
                     Phone: +123 456 7890
                 </Text>
-            </group>
+            </Fragment>
         ),
-        [cardPositionX]
+        []
     );
 
     const skillsList = useMemo(
         () => (
-            <group position={[cardPositionX, 0, -2]}>
+            <Fragment>
                 <Text
                     fontSize={0.3}
                     position-y={1.5}
@@ -90,19 +84,14 @@ const Space: React.FC<SpaceProps> = ({
                 >
                     - TypeScript
                 </Text>
-            </group>
+            </Fragment>
         ),
-        [cardPositionX]
+        []
     );
 
     const projectCards = useMemo(
         () => (
-            <Float
-                position={[cardPositionX, 0, -5]}
-                speed={2}
-                rotationIntensity={1}
-                floatIntensity={2}
-            >
+            <Float speed={2} rotationIntensity={1} floatIntensity={2}>
                 <mesh position={[-1.5, 0.5, 0]}>
                     <boxGeometry args={[2, 1, 0.2]} />
                     <meshStandardMaterial color="white" />
@@ -128,7 +117,7 @@ const Space: React.FC<SpaceProps> = ({
                 </mesh>
             </Float>
         ),
-        [cardPositionX]
+        []
     );
 
     const renderCategoryContent = () => {
@@ -146,18 +135,16 @@ const Space: React.FC<SpaceProps> = ({
 
     return (
         <Fragment>
-            <animated.group position={[0, 0, 0]} scale={[10, 3, 3]}>
-                <animated.mesh>
-                    <sphereGeometry args={[3, 32, 32]} />
-                    <animated.meshStandardMaterial
-                        color={color}
-                        transparent
-                        opacity={opacity}
-                        side={DoubleSide}
-                    />
-                </animated.mesh>
-            </animated.group>
-            {renderCategoryContent()}
+            <animated.mesh position={[0, 0, 0]} scale={[10, 3, 3]}>
+                <sphereGeometry args={[3, 32, 32]} />
+                <animated.meshStandardMaterial
+                    color={color}
+                    transparent
+                    opacity={opacity}
+                    side={DoubleSide}
+                />
+            </animated.mesh>
+            <group position={0}>{renderCategoryContent()}</group>
         </Fragment>
     );
 };

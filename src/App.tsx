@@ -7,7 +7,6 @@ import FloatingText from "./components/FloatingText/FloatingText";
 import TypingText from "./components/TypingText/TypingText";
 import LightButton from "./components/LightButton/LightButton";
 import GroupCard from "./components/GroupCard/GroupCard";
-import CameraController from "./components/CameraController/CameraController";
 import SpotLight from "./components/Lights/Spotlight/Spotlight";
 import Space from "./components/Space/Space";
 
@@ -19,9 +18,6 @@ const App: FC = () => {
     const [showButton, setShowButton] = useState(false);
     const [lightOn, setLightOn] = useState(false);
     const [enteringSphere, setEnteringSphere] = useState(false);
-    const [targetPosition, setTargetPosition] = useState<
-        [number, number, number]
-    >([0, 0, 10]);
     const [activeCardIndex, setActiveCardIndex] = useState<number>(-1);
 
     const { opacity } = useSpring({
@@ -34,27 +30,24 @@ const App: FC = () => {
         config: { duration: 1000 },
     });
 
-    const { spaceOpacity } = useSpring({
-        spaceOpacity: enteringSphere ? 1 : 0,
+    const [{ spaceOpacity }, setSpaceOpacity] = useSpring(() => ({
+        spaceOpacity: 0,
         config: { duration: 2000 },
-    });
+    }));
 
     const handleTextComplete = () => setShowButton(true);
     const handleButtonClick = () => setLightOn(true);
 
-    const handleCardClick = (
-        position: [number, number, number],
-        index: number
-    ) => {
-        setTargetPosition(position);
-        setEnteringSphere(true);
+    const handleCardClick = (index: number) => {
         setActiveCardIndex(index);
+        setEnteringSphere(true);
+        setSpaceOpacity({ spaceOpacity: 1 });
     };
 
     const handleCrossClick = () => {
-        setTargetPosition([0, 0, 10]);
         setEnteringSphere(false);
         setActiveCardIndex(-1);
+        setSpaceOpacity({ spaceOpacity: 0 });
     };
 
     useEffect(() => {
@@ -78,21 +71,15 @@ const App: FC = () => {
             <Canvas camera={{ position: [0, 0, 10] }}>
                 <ambientLight intensity={0.2} />
                 {!enteringSphere && <SpotLight intensity={intensity} />}
-                <CameraController
-                    enteringSphere={enteringSphere}
-                    targetPosition={targetPosition}
-                />
+
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
 
                 {enteringSphere && activeCardIndex !== -1 && (
                     <Space
                         opacity={spaceOpacity}
-                        color={CATEGORIES[activeCardIndex].cardColor}
+                        color={CATEGORIES[activeCardIndex]?.cardColor}
                         activeCategory={
-                            CATEGORIES[activeCardIndex].categoryTitle
-                        }
-                        cardPositionX={
-                            CATEGORIES[activeCardIndex].cardPositionX
+                            CATEGORIES[activeCardIndex]?.categoryTitle
                         }
                     />
                 )}
@@ -112,6 +99,7 @@ const App: FC = () => {
                             lightOn={lightOn}
                             categories={CATEGORIES}
                             onCardClick={lightOn ? handleCardClick : undefined}
+                            enteringSphere={enteringSphere}
                             activeCardIndex={activeCardIndex}
                         />
                     </>
