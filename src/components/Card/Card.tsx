@@ -34,7 +34,7 @@ const Card: FC<CardProps> = ({
             onClick={onClick}
             scale={scale}
         >
-            <boxGeometry args={[2, 2, 2]} />
+            <boxGeometry args={[2, 2, 2, 3, 3, 3]} />
             <meshStandardMaterial color={cardColor} wireframe />
         </animated.mesh>
     );

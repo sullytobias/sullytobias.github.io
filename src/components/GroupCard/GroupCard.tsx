@@ -16,6 +16,7 @@ type GroupCardProps = {
     onCardClick?: (index: number) => void;
     categories: CategoriesTypes[];
     activeCardIndex: number;
+    interactionDisabled: boolean;
 };
 
 const GroupCard: React.FC<GroupCardProps> = ({
@@ -23,6 +24,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
     onCardClick,
     categories,
     activeCardIndex,
+    interactionDisabled,
 }) => {
     const meshRef = useRef<Group>(null!);
     const [showText, setShowText] = useState(false);
@@ -30,7 +32,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
     const { positionY } = useSpring({
         positionY: lightOn ? 0 : 5,
         config: { duration: 1000 },
-        onRest: () => setShowText(true), // Shows title after light animation completes
+        onRest: () => setShowText(true),
     });
 
     const { opacity } = useSpring({
@@ -42,7 +44,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
         const time = clock.getElapsedTime();
         if (meshRef.current)
             meshRef.current.position.y =
-                positionY.get() + Math.sin(time * 2) * 0.2; // Floating animation
+                positionY.get() + Math.sin(time * 2) * 0.2;
     });
 
     return (
@@ -51,9 +53,10 @@ const GroupCard: React.FC<GroupCardProps> = ({
                 ({ cardPositionX, categoryTitle, cardColor }, index) => (
                     <group key={categoryTitle}>
                         <Card
-                            categoryTitle={categoryTitle}
                             positionX={cardPositionX}
-                            onClick={() => onCardClick?.(index)}
+                            onClick={() =>
+                                !interactionDisabled && onCardClick?.(index)
+                            }
                             enteringSphere={index === activeCardIndex}
                             cardColor={cardColor}
                         />

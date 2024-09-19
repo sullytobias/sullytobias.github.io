@@ -135,16 +135,18 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
 
     return (
         <Fragment>
-            <animated.mesh position={[0, 0, 0]} scale={[10, 3, 3]}>
-                <sphereGeometry args={[3, 32, 32]} />
-                <animated.meshStandardMaterial
-                    color={color}
-                    transparent
-                    opacity={opacity}
-                    side={DoubleSide}
-                />
-            </animated.mesh>
-            <group position={0}>{renderCategoryContent()}</group>
+            <animated.group position={[0, 0, 0]} scale={[10, 3, 3]}>
+                <animated.mesh>
+                    <sphereGeometry args={[3, 32, 32]} />
+                    <animated.meshStandardMaterial
+                        color={color}
+                        transparent
+                        opacity={opacity} // Ensure opacity is animated
+                        side={DoubleSide}
+                    />
+                </animated.mesh>
+            </animated.group>
+            <group>{renderCategoryContent()}</group>
         </Fragment>
     );
 };

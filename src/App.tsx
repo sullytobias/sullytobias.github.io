@@ -19,6 +19,7 @@ const App: FC = () => {
     const [lightOn, setLightOn] = useState(false);
     const [enteringSphere, setEnteringSphere] = useState(false);
     const [activeCardIndex, setActiveCardIndex] = useState<number>(-1);
+    const [interactionDisabled, setInteractionDisabled] = useState(false);
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -41,13 +42,18 @@ const App: FC = () => {
     const handleCardClick = (index: number) => {
         setActiveCardIndex(index);
         setEnteringSphere(true);
-        setSpaceOpacity({ spaceOpacity: 1 });
+
+        if (!interactionDisabled) {
+            setInteractionDisabled(true);
+            setSpaceOpacity({ spaceOpacity: 1 });
+        }
     };
 
     const handleCrossClick = () => {
         setEnteringSphere(false);
         setActiveCardIndex(-1);
-        setSpaceOpacity({ spaceOpacity: 0 });
+
+        if (!interactionDisabled) setSpaceOpacity({ spaceOpacity: 0 });
     };
 
     useEffect(() => {
@@ -58,6 +64,12 @@ const App: FC = () => {
 
         return () => clearTimeout(timeoutId);
     }, []);
+
+    useEffect(() => {
+        if (!enteringSphere && activeCardIndex === -1) {
+            setInteractionDisabled(false);
+        }
+    }, [enteringSphere, activeCardIndex]);
 
     return (
         <div
@@ -99,8 +111,8 @@ const App: FC = () => {
                             lightOn={lightOn}
                             categories={CATEGORIES}
                             onCardClick={lightOn ? handleCardClick : undefined}
-                            enteringSphere={enteringSphere}
                             activeCardIndex={activeCardIndex}
+                            interactionDisabled={interactionDisabled}
                         />
                     </>
                 )}
