@@ -53,7 +53,7 @@ const App: FC = () => {
         setEnteringSphere(false);
         setActiveCardIndex(-1);
 
-        if (!interactionDisabled) setSpaceOpacity({ spaceOpacity: 0 });
+        setSpaceOpacity({ spaceOpacity: 0 });
     };
 
     useEffect(() => {
@@ -86,15 +86,11 @@ const App: FC = () => {
 
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
 
-                {enteringSphere && activeCardIndex !== -1 && (
-                    <Space
-                        opacity={spaceOpacity}
-                        color={CATEGORIES[activeCardIndex]?.cardColor}
-                        activeCategory={
-                            CATEGORIES[activeCardIndex]?.categoryTitle
-                        }
-                    />
-                )}
+                <Space
+                    opacity={spaceOpacity}
+                    color={CATEGORIES[activeCardIndex]?.cardColor}
+                    activeCategory={CATEGORIES[activeCardIndex]?.categoryTitle}
+                />
 
                 {!isLoaderVisible && (
                     <>

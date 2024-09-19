@@ -141,7 +141,7 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
                     <animated.meshStandardMaterial
                         color={color}
                         transparent
-                        opacity={opacity} // Ensure opacity is animated
+                        opacity={opacity}
                         side={DoubleSide}
                     />
                 </animated.mesh>
