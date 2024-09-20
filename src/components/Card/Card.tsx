@@ -23,6 +23,10 @@ const Card: FC<CardProps> = ({
         config: { duration: 1000 },
     });
 
+    const click = () => {
+        onClick();
+    };
+
     useFrame(() => {
         if (meshRef.current) meshRef.current.rotation.y += 0.01;
     });
@@ -31,11 +35,15 @@ const Card: FC<CardProps> = ({
         <animated.mesh
             ref={meshRef}
             position-x={positionX}
-            onClick={onClick}
+            onClick={click}
             scale={scale}
         >
             <boxGeometry args={[2, 2, 2, 3, 3, 3]} />
-            <meshStandardMaterial color={cardColor} wireframe />
+            <animated.meshStandardMaterial
+                color={cardColor}
+                wireframe
+                transparent
+            />
         </animated.mesh>
     );
 };

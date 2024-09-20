@@ -34,13 +34,16 @@ const App: FC = () => {
 
     const [{ spaceOpacity }, setSpaceOpacity] = useSpring(() => ({
         spaceOpacity: 0,
-        config: { duration: 2000 },
+        config: { duration: 1000 },
         onRest: () => {
-            if (spaceOpacity.get() === 1) {
-                setSpaceLoaded(true);
-            }
+            if (spaceOpacity.get() === 1) setSpaceLoaded(true);
         },
     }));
+
+    const { opacity: contentSpaceOpacity } = useSpring({
+        opacity: spaceLoaded ? 1 : 0,
+        config: { duration: 2000 },
+    });
 
     const handleTextComplete = () => setShowButton(true);
     const handleButtonClick = () => setLightOn(true);
@@ -88,12 +91,12 @@ const App: FC = () => {
         >
             <Canvas camera={{ position: [0, 0, 10] }}>
                 <ambientLight intensity={0.2} />
-                {!enteringSphere && <SpotLight intensity={intensity} />}
+                <SpotLight intensity={intensity} />
 
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
 
                 <Space
-                    spaceLoaded={spaceLoaded}
+                    textOpacity={contentSpaceOpacity}
                     opacity={spaceOpacity}
                     color={CATEGORIES[activeCardIndex]?.cardColor}
                     activeCategory={CATEGORIES[activeCardIndex]?.categoryTitle}

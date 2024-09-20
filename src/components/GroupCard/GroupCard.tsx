@@ -47,6 +47,8 @@ const GroupCard: React.FC<GroupCardProps> = ({
                 positionY.get() + Math.sin(time * 2) * 0.2;
     });
 
+    const currentCategory = (index: number) => index === activeCardIndex;
+
     return (
         <animated.group ref={meshRef} position={[0, positionY.get(), -2]}>
             {categories.map(
@@ -57,7 +59,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
                             onClick={() =>
                                 !interactionDisabled && onCardClick?.(index)
                             }
-                            enteringSphere={index === activeCardIndex}
+                            enteringSphere={currentCategory(index)}
                             cardColor={cardColor}
                         />
                         {lightOn && (

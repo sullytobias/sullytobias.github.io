@@ -1,19 +1,17 @@
 import { FC, Fragment, useMemo } from "react";
-import { animated, SpringValue, useSpring } from "@react-spring/three";
+import { animated, SpringValue } from "@react-spring/three";
 import { Text, Float } from "@react-three/drei";
 import { DoubleSide } from "three";
 
 type SpaceProps = {
     color: string;
     opacity: SpringValue<number>;
+    textOpacity: SpringValue<number>;
     activeCategory: string;
-    spaceLoaded: boolean;
 };
 
-// Animated Drei Text Component
 const DreiText = animated(Text);
 
-// Reusable Text Function
 const RenderText = ({
     texts,
     TextOpacity,
@@ -38,17 +36,20 @@ const RenderText = ({
     </animated.group>
 );
 
+// Overlay Component
+const Overlay = ({ width, height }: { width: number; height: number }) => (
+    <mesh position={[0, 0, -0.1]}>
+        <planeGeometry args={[width, height]} />
+        <meshBasicMaterial color="black" transparent opacity={0.5} />
+    </mesh>
+);
+
 const Space: FC<SpaceProps> = ({
     color,
     opacity,
     activeCategory,
-    spaceLoaded,
+    textOpacity,
 }) => {
-    const { opacity: TextOpacity } = useSpring({
-        opacity: spaceLoaded ? 1 : 0,
-        config: { duration: 2000 },
-    });
-
     const contentMap = useMemo(() => {
         const categoryTexts = {
             Contacts: [
@@ -61,48 +62,60 @@ const Space: FC<SpaceProps> = ({
 
         return {
             Contacts: (
-                <RenderText
-                    texts={categoryTexts.Contacts}
-                    TextOpacity={TextOpacity}
-                />
+                <Fragment>
+                    <Overlay
+                        width={window.outerWidth}
+                        height={window.outerHeight}
+                    />
+                    <RenderText
+                        texts={categoryTexts.Contacts}
+                        TextOpacity={textOpacity}
+                    />
+                </Fragment>
             ),
             Skills: (
-                <RenderText
-                    texts={categoryTexts.Skills}
-                    TextOpacity={TextOpacity}
-                />
+                <Fragment>
+                    <Overlay width={4} height={2} />
+                    <RenderText
+                        texts={categoryTexts.Skills}
+                        TextOpacity={textOpacity}
+                    />
+                </Fragment>
             ),
             Projects: (
-                <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-                    <animated.group>
-                        {["Project 1", "Project 2", "Project 3"].map(
-                            (proj, idx) => (
-                                <mesh
-                                    key={proj}
-                                    position={[-2.5 + idx * 3, 0.5, 0]}
-                                >
-                                    <boxGeometry args={[2, 1, 0.2]} />
-                                    <animated.meshStandardMaterial
-                                        opacity={TextOpacity}
-                                        color="white"
-                                        transparent
-                                    />
-                                    <DreiText
-                                        fillOpacity={TextOpacity}
-                                        fontSize={0.4}
-                                        position={[0, 0, 0.2]}
-                                        color="black"
+                <Fragment>
+                    <Overlay width={7} height={3} />
+                    <Float speed={2} rotationIntensity={1} floatIntensity={2}>
+                        <animated.group>
+                            {["Project 1", "Project 2", "Project 3"].map(
+                                (proj, idx) => (
+                                    <mesh
+                                        key={proj}
+                                        position={[-2.5 + idx * 3, 0.5, 0]}
                                     >
-                                        {proj}
-                                    </DreiText>
-                                </mesh>
-                            )
-                        )}
-                    </animated.group>
-                </Float>
+                                        <boxGeometry args={[2, 1, 0.2]} />
+                                        <animated.meshStandardMaterial
+                                            opacity={textOpacity}
+                                            color="white"
+                                            transparent
+                                        />
+                                        <DreiText
+                                            fillOpacity={textOpacity}
+                                            fontSize={0.4}
+                                            position={[0, 0, 0.2]}
+                                            color="black"
+                                        >
+                                            {proj}
+                                        </DreiText>
+                                    </mesh>
+                                )
+                            )}
+                        </animated.group>
+                    </Float>
+                </Fragment>
             ),
         };
-    }, [TextOpacity]);
+    }, [textOpacity]);
 
     return (
         <Fragment>
