@@ -1,17 +1,18 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-
 import { useSpring, animated, SpringValue } from "@react-spring/three";
-
 import { Vector3, Mesh } from "three";
 
-type FloatingTextTypes = {
+type FloatingTextProps = {
     text: string;
     overridedOpacity: SpringValue<number>;
 };
 
-const FloatingText = ({ text, overridedOpacity }: FloatingTextTypes) => {
+const FloatingText: React.FC<FloatingTextProps> = ({
+    text,
+    overridedOpacity,
+}) => {
     const meshRef = useRef<Mesh>(null!);
     const { opacity } = useSpring({
         from: { opacity: 0 },
@@ -22,18 +23,19 @@ const FloatingText = ({ text, overridedOpacity }: FloatingTextTypes) => {
 
     useFrame(({ pointer }) => {
         if (meshRef.current) {
-            const movementScale = 0.5;
             const targetPosition = new Vector3(
-                pointer.x * movementScale,
-                -5 + pointer.y * movementScale,
+                pointer.x * 0.5,
+                -5 + pointer.y * 0.5,
                 0
             );
 
             meshRef.current.position.lerp(targetPosition, 0.1);
-
-            meshRef.current.children.forEach(({ material }) => {
-                if (material)
-                    material.opacity = overridedOpacity.get() ?? opacity.get();
+            meshRef.current.children.forEach((child) => {
+                const meshChild = child as Mesh;
+                if (meshChild.material) {
+                    meshChild.material.opacity =
+                        overridedOpacity.get() ?? opacity.get();
+                }
             });
         }
     });

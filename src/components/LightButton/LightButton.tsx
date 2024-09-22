@@ -12,10 +12,12 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
 
     useFrame(({ clock }) => {
         const time = clock.getElapsedTime();
-
         if (meshRef.current) {
-            meshRef.current.position.y = Math.sin(time) * 0.1 - 5;
-            meshRef.current.position.x = Math.cos(time) * 0.1;
+            meshRef.current.position.set(
+                Math.cos(time) * 0.1,
+                Math.sin(time) * 0.1 - 5,
+                0
+            );
         }
     });
 

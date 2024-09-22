@@ -3,19 +3,20 @@ import { SpotLight as SpotLightType } from "three";
 import { useFrame } from "@react-three/fiber";
 import { animated, SpringValue } from "@react-spring/three";
 
-type CardProps = {
+type SpotLightProps = {
     intensity: SpringValue<number>;
 };
 
-const SpotLight: FC<CardProps> = ({ intensity }) => {
+const SpotLight: FC<SpotLightProps> = ({ intensity }) => {
     const lightRef = useRef<SpotLightType>(null!);
 
     useFrame(({ clock: { elapsedTime } }) => {
         if (lightRef.current) {
-            const time = elapsedTime;
-
-            lightRef.current.position.x = Math.sin(time) * 10;
-            lightRef.current.position.y = Math.cos(time) * 10;
+            lightRef.current.position.set(
+                Math.sin(elapsedTime) * 10,
+                Math.cos(elapsedTime) * 10,
+                0
+            );
         }
     });
 
