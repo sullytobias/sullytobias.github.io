@@ -1,3 +1,9 @@
+type Category = {
+    cardColor: string;
+    cardPositionX: number;
+    categoryTitle: "Contacts" | "Skills" | "Projects";
+};
+
 function getRandomColor(): string {
     const randomValue = () => Math.floor(Math.random() * 256);
     const red = randomValue();
@@ -6,12 +12,13 @@ function getRandomColor(): string {
 
     return `rgb(${red}, ${green}, ${blue})`;
 }
+
 export const LOADING_TEXT = {
     loading: "Loading Space",
     loaded: "Welcome",
 };
 
-export const CATEGORIES = [
+export const CATEGORIES: Category[] = [
     {
         categoryTitle: "Skills",
         cardPositionX: 0,

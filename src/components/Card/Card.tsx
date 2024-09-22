@@ -18,8 +18,9 @@ const Card: FC<CardProps> = ({
 }) => {
     const meshRef = useRef<Mesh>(null!);
 
-    const { scale } = useSpring({
+    const { scale, opacity } = useSpring({
         scale: enteringSphere ? [3, 3, 3] : [1, 1, 1],
+        opacity: enteringSphere ? 0 : 1,
         config: { duration: 1000 },
     });
 
@@ -36,13 +37,14 @@ const Card: FC<CardProps> = ({
             ref={meshRef}
             position-x={positionX}
             onClick={click}
-            scale={scale}
+            scale={scale.to((x, y, z) => [x, y, z])}
         >
             <boxGeometry args={[2, 2, 2, 3, 3, 3]} />
             <animated.meshStandardMaterial
                 color={cardColor}
                 wireframe
                 transparent
+                opacity={opacity}
             />
         </animated.mesh>
     );
