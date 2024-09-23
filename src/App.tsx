@@ -20,7 +20,6 @@ const App: FC = () => {
     const [enteringSphere, setEnteringSphere] = useState(false);
     const [activeCardIndex, setActiveCardIndex] = useState<number>(-1);
     const [interactionDisabled, setInteractionDisabled] = useState(false);
-    const [spaceLoaded, setSpaceLoaded] = useState(false);
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -35,15 +34,7 @@ const App: FC = () => {
     const [{ spaceOpacity }, setSpaceOpacity] = useSpring(() => ({
         spaceOpacity: 0,
         config: { duration: 1000 },
-        onRest: () => {
-            if (spaceOpacity.get() === 1) setSpaceLoaded(true);
-        },
     }));
-
-    const { opacity: contentSpaceOpacity } = useSpring({
-        opacity: spaceLoaded ? 1 : 0,
-        config: { duration: 2000 },
-    });
 
     const handleTextComplete = () => setShowButton(true);
     const handleButtonClick = () => setLightOn(true);
@@ -61,7 +52,6 @@ const App: FC = () => {
     const handleCrossClick = () => {
         setEnteringSphere(false);
         setActiveCardIndex(-1);
-        setSpaceLoaded(false);
         setSpaceOpacity({ spaceOpacity: 0 });
     };
 
@@ -96,7 +86,6 @@ const App: FC = () => {
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
 
                 <Space
-                    textOpacity={contentSpaceOpacity}
                     opacity={spaceOpacity}
                     color={CATEGORIES[activeCardIndex]?.cardColor}
                     activeCategory={CATEGORIES[activeCardIndex]?.categoryTitle}

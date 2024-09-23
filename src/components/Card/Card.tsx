@@ -41,6 +41,8 @@ const Card: FC<CardProps> = ({
                 ref={meshRef}
                 position-x={positionX}
                 onClick={onClick}
+                onPointerOver={() => (document.body.style.cursor = "pointer")}
+                onPointerOut={() => (document.body.style.cursor = "auto")}
                 scale={scale.to((x, y, z) => [x, y, z])}
             >
                 <boxGeometry args={[2, 2, 2, 3, 3, 3]} />
