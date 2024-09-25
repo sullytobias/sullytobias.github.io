@@ -7,27 +7,28 @@ import { Text } from "@react-three/drei";
 type CardProps = {
     positionX: number;
     onClick: () => void;
-    enteringSphere: boolean;
     cardColor: string;
-    lightOn: boolean;
     showText: boolean;
     categoryTitle: string;
+    isActive: boolean;
+    categoryLoaded: boolean;
 };
 
 const Card: FC<CardProps> = ({
     positionX,
     onClick,
-    enteringSphere,
     cardColor,
-    lightOn,
     showText,
     categoryTitle,
+    isActive,
+    categoryLoaded,
 }) => {
     const meshRef = useRef<Mesh>(null!);
+
     const { scale, opacity, textOpacity } = useSpring({
-        scale: enteringSphere ? [3, 3, 3] : [1, 1, 1],
-        textOpacity: !enteringSphere && showText ? 1 : 0,
-        opacity: enteringSphere ? 0 : 1,
+        scale: isActive ? [3, 3, 3] : categoryLoaded ? [0, 0, 0] : [1, 1, 1],
+        textOpacity: showText ? (categoryLoaded ? 0 : 1) : 1,
+        opacity: isActive ? 0 : categoryLoaded ? 0 : 1,
         config: { duration: 1000 },
     });
 
@@ -53,23 +54,21 @@ const Card: FC<CardProps> = ({
                     opacity={opacity}
                 />
             </animated.mesh>
-            {lightOn && (
-                <animated.mesh>
-                    <Text
-                        position={[positionX, -2.5, 0]}
-                        fontSize={0.5}
-                        color="white"
-                        anchorX="center"
-                        anchorY="middle"
-                    >
-                        <animated.meshStandardMaterial
-                            opacity={textOpacity}
-                            transparent
-                        />
-                        {categoryTitle}
-                    </Text>
-                </animated.mesh>
-            )}
+            <animated.mesh>
+                <Text
+                    position={[positionX, -2.5, 0]}
+                    fontSize={0.5}
+                    color="white"
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    <animated.meshStandardMaterial
+                        opacity={textOpacity}
+                        transparent
+                    />
+                    {categoryTitle}
+                </Text>
+            </animated.mesh>
         </group>
     );
 };

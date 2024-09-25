@@ -65,9 +65,8 @@ const App: FC = () => {
     }, []);
 
     useEffect(() => {
-        if (!enteringSphere && activeCardIndex === -1) {
+        if (!enteringSphere && activeCardIndex === -1)
             setInteractionDisabled(false);
-        }
     }, [enteringSphere, activeCardIndex]);
 
     return (

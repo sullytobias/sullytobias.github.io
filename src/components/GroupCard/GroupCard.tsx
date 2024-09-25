@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import Card from "../Card/Card";
 import { useFrame } from "@react-three/fiber";
-
 import { Group } from "three";
 import { useSpring, animated } from "@react-spring/three";
 
@@ -27,6 +26,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
     interactionDisabled,
 }) => {
     const meshRef = useRef<Group>(null!);
+
     const [showText, setShowText] = useState(false);
 
     const { positionY } = useSpring({
@@ -43,25 +43,29 @@ const GroupCard: React.FC<GroupCardProps> = ({
         }
     });
 
-    const isActiveCard = (index: number) => index === activeCardIndex;
+    const handleCardClick = (index: number) => onCardClick?.(index);
 
     return (
         <animated.group ref={meshRef} position={[0, positionY.get(), -2]}>
             {categories.map(
-                ({ cardPositionX, categoryTitle, cardColor }, index) => (
-                    <Card
-                        key={categoryTitle}
-                        categoryTitle={categoryTitle}
-                        showText={showText}
-                        lightOn={lightOn}
-                        positionX={cardPositionX}
-                        onClick={() =>
-                            !interactionDisabled && onCardClick?.(index)
-                        }
-                        enteringSphere={isActiveCard(index)}
-                        cardColor={cardColor}
-                    />
-                )
+                ({ cardPositionX, categoryTitle, cardColor }, index) => {
+                    const isActive = index === activeCardIndex;
+
+                    return (
+                        <Card
+                            key={categoryTitle}
+                            categoryTitle={categoryTitle}
+                            positionX={cardPositionX}
+                            cardColor={cardColor}
+                            showText={showText}
+                            categoryLoaded={interactionDisabled}
+                            onClick={() =>
+                                !interactionDisabled && handleCardClick(index)
+                            }
+                            isActive={isActive}
+                        />
+                    );
+                }
             )}
         </animated.group>
     );

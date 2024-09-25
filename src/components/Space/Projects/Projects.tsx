@@ -8,16 +8,35 @@ const AnimatedSphere = animated(Sphere);
 
 interface Project {
     title: string;
+    link: string;
 }
 
 const projectsData: Project[] = [
-    { title: "Project A" },
-    { title: "Project B" },
-    { title: "Project C" },
-    { title: "Project D" },
-    { title: "Project E" },
-    { title: "Project F" },
-    { title: "Project G" },
+    { title: "Renault", link: "https://www.renault.fr/" },
+    { title: "Radley", link: "https://www.radley.co.uk/" },
+    { title: "Airbus", link: "https://www.airbus.com/en" },
+    {
+        title: "Crypto",
+        link: "https://sullivantobias.github.io/Crypto-Tracker/",
+    },
+    {
+        title: "Solar System 3D",
+        link: "https://sullytobias.github.io/geovisu/",
+    },
+    {
+        title: "Solar System 2D",
+        link: "https://sullivantobias.github.io/solar-system/",
+    },
+    {
+        title: "React Firebase Chat",
+        link: "https://sullivantobias.github.io/login",
+    },
+    { title: "Weather", link: "https://sullivantobias.github.io/weather-app/" },
+    { title: "Lunar", link: "https://sullivantobias.github.io/moon-phase/" },
+    {
+        title: "Github",
+        link: "https://sullivantobias.github.io/github-resume/",
+    },
 ];
 
 const getRadiusPosition = (cupRadius: number) =>
@@ -31,17 +50,19 @@ const getRandomPosition = (cupRadius: number) => {
     return [x, y, z];
 };
 
-const ProjectCard: FC<{ title: string; initialPosition: Vector3 }> = ({
-    title,
-    initialPosition,
-}) => {
+const ProjectCard: FC<{
+    title: string;
+    link: string;
+    initialPosition: Vector3;
+}> = ({ title, link, initialPosition }) => {
     const [hovered, setHovered] = useState(false);
+    const [bumped, setBumped] = useState(false);
 
     const { scale, color, opacity } = useSpring({
-        scale: hovered ? 1.1 : 1,
+        scale: bumped ? 1.2 : 1,
         color: hovered ? "yellow" : "white",
-        opacity: hovered ? 1 : 0.7, // Add opacity effect for visual enhancement
-        config: { tension: 200, friction: 30 },
+        opacity: hovered || bumped ? 1 : 0.7,
+        config: { tension: 200, friction: 10 },
     });
 
     const pointerOver = () => {
@@ -52,6 +73,14 @@ const ProjectCard: FC<{ title: string; initialPosition: Vector3 }> = ({
     const pointerOut = () => {
         document.body.style.cursor = "auto";
         setHovered(false);
+    };
+
+    const handleClick = () => {
+        setBumped(true);
+        setTimeout(() => {
+            setBumped(false);
+            window.open(link, "_blank");
+        }, 500);
     };
 
     return (
@@ -65,7 +94,11 @@ const ProjectCard: FC<{ title: string; initialPosition: Vector3 }> = ({
             mass={1}
             restitution={0.05}
         >
-            <group onPointerOver={pointerOver} onPointerOut={pointerOut}>
+            <group
+                onPointerOver={pointerOver}
+                onPointerOut={pointerOut}
+                onClick={handleClick}
+            >
                 <AnimatedSphere args={[0.5, 32, 32]} scale={scale}>
                     <animated.meshStandardMaterial
                         color={color}
@@ -115,7 +148,7 @@ const Projects: FC = () => {
 
     return (
         <Physics colliders="ball">
-            <RigidBody type="fixed" colliders="trimesh" position={[0, -2, 0]}>
+            <RigidBody type="fixed" colliders="trimesh" position={[0, 0, 0]}>
                 <Cylinder
                     args={[cupRadiusValue, cupRadiusValue, 4, 64, 1, true]}
                 >
@@ -140,9 +173,47 @@ const Projects: FC = () => {
                     <ProjectCard
                         key={index}
                         title={project.title}
+                        link={project.link}
                         initialPosition={initialPositions[index]}
                     />
                 ))}
+
+            {/* Floating HTML list of projects */}
+            <Html position={[0, 5, 0]} center>
+                <div
+                    style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        borderRadius: "8px",
+                        padding: "10px",
+                        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
+                        pointerEvents: "auto",
+                    }}
+                >
+                    <h3 style={{ margin: "0 0 10px", fontSize: "1.2rem" }}>
+                        Projects
+                    </h3>
+                    <ul style={{ listStyleType: "none", padding: 0 }}>
+                        {projectsData.map((project, index) => (
+                            <li key={index}>
+                                <a
+                                    href={project.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "#0077cc",
+                                        fontSize: "1rem",
+                                        display: "block",
+                                        padding: "5px 0",
+                                    }}
+                                >
+                                    {project.title}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </Html>
         </Physics>
     );
 };
