@@ -59,7 +59,7 @@ const App: FC = () => {
         const timeoutId = setTimeout(() => {
             setLoadingText(LOADING_TEXT.loaded);
             setIsLoaderVisible(false);
-        }, 5000);
+        }, 0);
 
         return () => clearTimeout(timeoutId);
     }, []);
@@ -93,13 +93,13 @@ const App: FC = () => {
 
                 {!isLoaderVisible && (
                     <>
-                        {!lightOn && (
+                        {/*!lightOn && (
                             <TypingText
                                 text="Hello, I'm a front-end developer passionate about creating stunning web experiences."
                                 onComplete={handleTextComplete}
                             />
-                        )}
-                        {showButton && !lightOn && (
+                        )*/}
+                        {!showButton && !lightOn && (
                             <LightButton onClick={handleButtonClick} />
                         )}
                         <GroupCard

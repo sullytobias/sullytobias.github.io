@@ -38,7 +38,6 @@ const SkillItem: FC<{ title: string; initialPosition: THREE.Vector3 }> = ({
 }) => {
     const [hovered, setHovered] = useState(false);
 
-    // Spring for position movement
     const { position } = useSpring({
         from: {
             position: initialPosition.toArray(),

@@ -50,6 +50,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
             {categories.map(
                 ({ cardPositionX, categoryTitle, cardColor }, index) => (
                     <Card
+                        key={categoryTitle}
                         categoryTitle={categoryTitle}
                         showText={showText}
                         lightOn={lightOn}

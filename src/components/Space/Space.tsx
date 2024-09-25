@@ -2,6 +2,7 @@ import { FC, Fragment, useMemo } from "react";
 import { animated, SpringValue } from "@react-spring/three";
 import ContactInfo from "./Contact/Contact";
 import Skills from "./Skills/Skills";
+import Projects from "./Projects/Projects";
 
 type SpaceProps = {
     color: string;
@@ -31,7 +32,7 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
         () => ({
             Contacts: <ContactInfo />,
             Skills: <Skills />,
-            Projects: null,
+            Projects: <Projects />,
         }),
         []
     );
