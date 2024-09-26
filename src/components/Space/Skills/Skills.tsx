@@ -10,18 +10,24 @@ interface Skill {
 const TextAnimated = animated(Text);
 
 const skillsData: Skill[] = [
+    { title: "HTML5" },
+    { title: "CSS" },
     { title: "JavaScript" },
     { title: "React" },
-    { title: "HTML5" },
-    { title: "CSS3" },
-    { title: "TypeScript" },
-    { title: "Node.js" },
-    { title: "GraphQL" },
-    { title: "MongoDB" },
-    { title: "Webpack" },
-    { title: "Git" },
     { title: "Redux" },
-    { title: "Next.js" },
+    { title: "MobX" },
+    { title: "Handlebar" },
+    { title: "NodeJs" },
+    { title: "AEM" },
+    { title: "TS" },
+    { title: "GraphQL" },
+    { title: "Jest" },
+    { title: "NextJS" },
+    { title: "MongoDB" },
+    { title: "GSAP" },
+    { title: "ThreeJS" },
+    { title: "OpenAI" },
+    { title: "Lightroom" },
 ];
 
 const getRandomPosition = () => {
