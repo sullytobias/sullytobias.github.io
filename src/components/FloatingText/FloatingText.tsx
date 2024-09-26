@@ -25,7 +25,7 @@ const FloatingText: React.FC<FloatingTextProps> = ({
         if (meshRef.current) {
             const targetPosition = new Vector3(
                 pointer.x * 0.5,
-                -5 + pointer.y * 0.5,
+                0 + pointer.y * 0.5,
                 0
             );
 

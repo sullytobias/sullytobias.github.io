@@ -114,7 +114,7 @@ const Projects: FC = () => {
 
     return (
         <Physics colliders="ball">
-            <RigidBody type="fixed" colliders="trimesh" position={[0, 0, 0]}>
+            <RigidBody type="fixed" colliders="trimesh" position={[0, -2, 0]}>
                 <Cylinder
                     args={[cupRadiusValue, cupRadiusValue, 4, 64, 1, true]}
                 >

@@ -30,14 +30,17 @@ const App: FC = () => {
         opacity: isLoaderVisible ? 1 : 0,
         config: { duration: 2000 },
     });
+
     const { intensity } = useSpring({
-        intensity: lightOn ? 100 : 0,
+        intensity: lightOn ? 300 : 5,
         config: { duration: 1000 },
     });
+
     const [{ spaceOpacity }, setSpaceOpacity] = useSpring(() => ({
         spaceOpacity: 0,
         config: { duration: 1000 },
     }));
+
     const { opacity: projectListOpacity } = useSpring({
         opacity: showProjectList ? 1 : 0,
         config: { duration: 500 },
@@ -65,7 +68,9 @@ const App: FC = () => {
     }, [activeCardIndex]);
 
     const handleTextComplete = () => setShowButton(true);
+
     const handleButtonClick = () => setLightOn(true);
+
     const handleCardClick = (index: number) => {
         setActiveCardIndex(index);
         setEnteringSphere(true);
@@ -82,16 +87,16 @@ const App: FC = () => {
     };
 
     return (
-        <div
+        <animated.div
             style={{
                 height: "100vh",
                 width: "100vw",
                 position: "relative",
-                backgroundColor: "#171717",
+                backgroundColor: "black",
             }}
         >
             <Canvas camera={{ position: [0, 0, 10] }}>
-                <ambientLight intensity={0.2} />
+                <ambientLight intensity={0.3} />
                 <SpotLight intensity={intensity} />
                 <FloatingText overridedOpacity={opacity} text={loadingText} />
                 <Space
@@ -176,7 +181,7 @@ const App: FC = () => {
                     </ul>
                 </animated.div>
             )}
-        </div>
+        </animated.div>
     );
 };
 

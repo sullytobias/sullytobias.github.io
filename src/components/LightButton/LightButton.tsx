@@ -1,7 +1,8 @@
 import { FC, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Mesh } from "three";
+import { Mesh, PointLight } from "three";
 import { Text } from "@react-three/drei";
+import { animated, useSpring } from "@react-spring/three";
 
 type LightButtonProps = {
     onClick: () => void;
@@ -9,34 +10,58 @@ type LightButtonProps = {
 
 const LightButton: FC<LightButtonProps> = ({ onClick }) => {
     const meshRef = useRef<Mesh>(null!);
+    const lightRef = useRef<PointLight>(null!);
+
+    const springs = useSpring({
+        scale: [1, 1, 1],
+        intensity: 1.5,
+        from: { scale: [1.1, 1.1, 1.1] },
+        config: { tension: 200, friction: 15 },
+        loop: true,
+    });
 
     useFrame(({ clock }) => {
         const time = clock.getElapsedTime();
-        if (meshRef.current) {
-            meshRef.current.position.set(
-                Math.cos(time) * 0.1,
-                Math.sin(time) * 0.1 - 5,
-                0
-            );
+        const radius = 3;
+        const speed = 3;
+
+        if (lightRef.current) {
+            const x = Math.cos(time * speed) * radius;
+            const z = Math.sin(time * speed) * radius;
+            lightRef.current.position.set(x, 0, z);
         }
     });
 
     return (
-        <mesh ref={meshRef} onClick={onClick}>
-            <boxGeometry args={[2, 2, 0]} />
-            <meshBasicMaterial wireframe />
+        <group position={[0, -5, 0]}>
+            <animated.mesh
+                ref={meshRef}
+                onClick={onClick}
+                scale={springs.scale.to((x, y, z) => [x, y, z])}
+            >
+                <sphereGeometry args={[0.6, 32, 32]} />
+                <animated.meshStandardMaterial
+                    color="white"
+                    roughness={0.8}
+                    metalness={0.7}
+                />
+            </animated.mesh>
+
+            <animated.pointLight ref={lightRef} color="white" />
+
             <Text
                 color="white"
-                fontSize={0.3}
+                fontSize={0.15}
+                fontWeight={700}
                 maxWidth={2}
                 lineHeight={1}
                 letterSpacing={0.02}
                 textAlign="center"
-                position={[0, 0, 0]}
+                position={[0, 0.5, 1]}
             >
-                Light On
+                Light on
             </Text>
-        </mesh>
+        </group>
     );
 };
 

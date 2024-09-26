@@ -27,7 +27,7 @@ const Card: FC<CardProps> = ({
 
     const { scale, opacity, textOpacity } = useSpring({
         scale: isActive ? [3, 3, 3] : categoryLoaded ? [0, 0, 0] : [1, 1, 1],
-        textOpacity: showText ? (categoryLoaded ? 0 : 1) : 1,
+        textOpacity: showText ? (categoryLoaded ? 0 : 1) : 0,
         opacity: isActive ? 0 : categoryLoaded ? 0 : 1,
         config: { duration: 1000 },
     });
