@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Mesh, PointLight } from "three";
 import { Text } from "@react-three/drei";
@@ -9,6 +9,8 @@ type LightButtonProps = {
 };
 
 const LightButton: FC<LightButtonProps> = ({ onClick }) => {
+    const [hovered, setHovered] = useState(false);
+
     const meshRef = useRef<Mesh>(null!);
     const lightRef = useRef<PointLight>(null!);
 
@@ -32,8 +34,27 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
         }
     });
 
+    const { color } = useSpring({
+        color: hovered ? "red" : "white",
+        config: { tension: 50, friction: 10 },
+    });
+
+    const handlePointerOver = () => {
+        document.body.style.cursor = "pointer";
+        setHovered(true);
+    };
+
+    const handlePointerOut = () => {
+        document.body.style.cursor = "auto";
+        setHovered(false);
+    };
+
     return (
-        <group position={[0, -5, 0]}>
+        <group
+            onPointerOver={handlePointerOver}
+            onPointerOut={handlePointerOut}
+            position={[0, -5, 0]}
+        >
             <animated.mesh
                 ref={meshRef}
                 onClick={onClick}
@@ -41,7 +62,7 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
             >
                 <sphereGeometry args={[0.6, 32, 32]} />
                 <animated.meshStandardMaterial
-                    color="white"
+                    color={color}
                     roughness={0.8}
                     metalness={0.7}
                 />

@@ -12,8 +12,7 @@ type SpaceProps = {
     activeCategory: "Contacts" | "Skills" | "Projects";
 };
 
-// Overlay component for background color and opacity
-const Overlay = ({
+export const Overlay = ({
     color,
     opacity,
 }: {
@@ -68,8 +67,7 @@ const Snowflakes = ({ count = 100 }) => {
                     ref={(el) => (snowflakesRef.current[i] = el!)}
                     position={[pos.x, pos.y, pos.z]}
                 >
-                    <sphereGeometry args={[0.05, 8, 8]} />{" "}
-                    {/* Small sphere for snowflake */}
+                    <sphereGeometry args={[0.05, 8, 8]} />
                     <meshBasicMaterial color="white" />
                 </mesh>
             ))}

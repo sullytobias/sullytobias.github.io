@@ -15,6 +15,7 @@ import {
     PROJECT_CATEGORIES,
     projectsData,
 } from "./utils/constants";
+import TypingText from "./components/TypingText/TypingText";
 
 const App: FC = () => {
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
@@ -50,7 +51,7 @@ const App: FC = () => {
         const timeoutId = setTimeout(() => {
             setLoadingText(LOADING_TEXT.loaded);
             setIsLoaderVisible(false);
-        }, 0);
+        }, 5000);
 
         return () => clearTimeout(timeoutId);
     }, []);
@@ -106,7 +107,13 @@ const App: FC = () => {
                 />
                 {!isLoaderVisible && (
                     <>
-                        {!showButton && !lightOn && (
+                        {!lightOn && (
+                            <TypingText
+                                text="Hello, I'm a front-end developer passionate about creating stunning web experiences."
+                                onComplete={handleTextComplete}
+                            />
+                        )}
+                        {showButton && !lightOn && (
                             <LightButton onClick={handleButtonClick} />
                         )}
                         <GroupCard
