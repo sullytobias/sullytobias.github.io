@@ -1,7 +1,9 @@
 import { useState, useEffect, FC } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/web";
-import { useMediaQuery } from "react-responsive"; // Import useMediaQuery
+import { useMediaQuery } from "react-responsive";
+
+import { Howl } from "howler";
 
 import Loader from "./components/Loader/Loader";
 import FloatingText from "./components/FloatingText/FloatingText";
@@ -29,6 +31,20 @@ const App: FC = () => {
     const [showProjectList, setShowProjectList] = useState(false);
 
     const isMobile = useMediaQuery({ maxWidth: 767 });
+
+    useEffect(() => {
+        const ambientWindSound = new Howl({
+            src: ["/sounds/background.mp3"],
+            loop: true,
+            volume: 0.08,
+        });
+
+        ambientWindSound.play();
+
+        return () => {
+            ambientWindSound.stop();
+        };
+    }, []);
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -73,6 +89,12 @@ const App: FC = () => {
     const handleTextComplete = () => setShowButton(true);
     const handleButtonClick = () => setLightOn(true);
     const handleCardClick = (index: number) => {
+        const clickSound = new Howl({
+            src: ["/sounds/categoryClick.mp3"],
+            volume: 0.2,
+        });
+        clickSound.play();
+
         setActiveCardIndex(index);
         setEnteringSphere(true);
         if (!interactionDisabled) {
@@ -82,6 +104,12 @@ const App: FC = () => {
     };
 
     const handleCrossClick = () => {
+        const crossClickSound = new Howl({
+            src: ["/sounds/click-cross.mp3"],
+            volume: 0.2,
+        });
+        crossClickSound.play();
+
         setEnteringSphere(false);
         setActiveCardIndex(-1);
         setSpaceOpacity({ spaceOpacity: 0 });
