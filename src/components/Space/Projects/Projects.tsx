@@ -8,10 +8,9 @@ import {
     ProjectCategory,
     projectsData,
 } from "../../../utils/constants";
+import { useMediaQuery } from "react-responsive";
 
 const AnimatedSphere = animated(Sphere);
-const cupRadiusValue = 5;
-
 const getRandomPosition = (cupRadius: number) => {
     const randomOffset = () => (Math.random() - 0.5) * cupRadius;
     return [randomOffset(), randomOffset(), randomOffset()];
@@ -22,7 +21,8 @@ const ProjectCard: FC<{
     link: string;
     category: ProjectCategory;
     initialPosition: Vector3;
-}> = ({ title, link, category, initialPosition }) => {
+    isMobile: boolean;
+}> = ({ title, link, category, initialPosition, isMobile }) => {
     const [hovered, setHovered] = useState(false);
     const [bumped, setBumped] = useState(false);
     const sphereColor = PROJECT_CATEGORIES[category]?.color;
@@ -57,18 +57,21 @@ const ProjectCard: FC<{
             colliders="ball"
             position={[
                 initialPosition.x,
-                10 + initialPosition.y,
+                15 + initialPosition.y,
                 initialPosition.z,
             ]}
             mass={1}
-            restitution={0.05}
+            restitution={0.1}
         >
             <group
                 onPointerOver={handlePointerOver}
                 onPointerOut={handlePointerOut}
                 onClick={handleClick}
             >
-                <AnimatedSphere args={[0.5, 32, 32]} scale={scale}>
+                <AnimatedSphere
+                    args={[isMobile ? 0.4 : 0.5, 32, 32]}
+                    scale={scale}
+                >
                     <animated.meshStandardMaterial
                         color={color}
                         opacity={opacity}
@@ -81,12 +84,9 @@ const ProjectCard: FC<{
                 <Html position={[0, 0.6, 0]} center>
                     <div
                         style={{
-                            fontSize: "0.7rem",
+                            fontSize: isMobile ? "0.5rem" : "0.7rem",
                             fontWeight: "bold",
                             color: "white",
-                            background: "rgba(0, 0, 0, 0.5)",
-                            padding: "2px 8px",
-                            borderRadius: "5px",
                             pointerEvents: "none",
                         }}
                     >
@@ -101,16 +101,23 @@ const ProjectCard: FC<{
 const Projects: FC = () => {
     const [initialPositions, setInitialPositions] = useState<Vector3[]>([]);
 
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+    const cupRadiusValue = isMobile ? 3 : 5; // Smaller radius on mobile
+
     useEffect(() => {
         const positions = projectsData.map(
             () => new Vector3(...getRandomPosition(cupRadiusValue))
         );
         setInitialPositions(positions);
-    }, []);
+    }, [cupRadiusValue]);
 
     return (
         <Physics colliders="ball">
-            <RigidBody type="fixed" colliders="trimesh" position={[0, -1, 0]}>
+            <RigidBody
+                type="fixed"
+                colliders="trimesh"
+                position={[0, isMobile ? -2.5 : -1, 0]}
+            >
                 <Cylinder
                     position={[0, 1, 0]}
                     args={[cupRadiusValue, cupRadiusValue, 6, 64, 1, true]}
@@ -139,6 +146,7 @@ const Projects: FC = () => {
             {initialPositions.length > 0 &&
                 projectsData.map((project, index) => (
                     <ProjectCard
+                        isMobile={isMobile}
                         key={index}
                         category={project.category}
                         title={project.title}

@@ -6,6 +6,7 @@ import { Text } from "@react-three/drei";
 
 type CardProps = {
     positionX: number;
+    positionY: number;
     onClick: () => void;
     cardColor: string;
     showText: boolean;
@@ -16,6 +17,7 @@ type CardProps = {
 
 const Card: FC<CardProps> = ({
     positionX,
+    positionY,
     onClick,
     cardColor,
     showText,
@@ -41,23 +43,26 @@ const Card: FC<CardProps> = ({
             <animated.mesh
                 ref={meshRef}
                 position-x={positionX}
+                position-y={positionY}
                 onClick={onClick}
                 onPointerOver={() => (document.body.style.cursor = "pointer")}
                 onPointerOut={() => (document.body.style.cursor = "auto")}
                 scale={scale.to((x, y, z) => [x, y, z])}
             >
-                <sphereGeometry args={[1, 32, 32]} />
+                <sphereGeometry args={[1.2, 32, 32]} />
                 <animated.meshStandardMaterial
                     color={cardColor}
                     wireframe={true}
                     transparent
                     opacity={opacity}
+                    depthWrite={false}
                 />
             </animated.mesh>
             <animated.mesh>
                 <Text
-                    position={[positionX, -2.5, 0]}
-                    fontSize={0.5}
+                    position={[positionX, positionY, 0]}
+                    fontSize={0.4}
+                    fontWeight={700}
                     color="white"
                     anchorX="center"
                     anchorY="middle"

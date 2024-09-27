@@ -3,6 +3,7 @@ import Card from "../Card/Card";
 import { useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { useSpring, animated } from "@react-spring/three";
+import { useMediaQuery } from "react-responsive"; // Ensure you install this package
 
 type CategoryType = {
     cardPositionX: number;
@@ -26,8 +27,10 @@ const GroupCard: React.FC<GroupCardProps> = ({
     interactionDisabled,
 }) => {
     const meshRef = useRef<Group>(null!);
-
     const [showText, setShowText] = useState(false);
+
+    // Check if the viewport is mobile
+    const isMobile = useMediaQuery({ maxWidth: 1024 }); // Adjust maxWidth as needed
 
     const { positionY } = useSpring({
         positionY: lightOn ? 0 : 5,
@@ -51,11 +54,15 @@ const GroupCard: React.FC<GroupCardProps> = ({
                 ({ cardPositionX, categoryTitle, cardColor }, index) => {
                     const isActive = index === activeCardIndex;
 
+                    const positionX = isMobile ? 0 : cardPositionX;
+                    const positionY = isMobile ? cardPositionX * 0.8 : 0;
+
                     return (
                         <Card
                             key={categoryTitle}
                             categoryTitle={categoryTitle}
-                            positionX={cardPositionX}
+                            positionX={positionX}
+                            positionY={positionY}
                             cardColor={cardColor}
                             showText={showText}
                             categoryLoaded={interactionDisabled}

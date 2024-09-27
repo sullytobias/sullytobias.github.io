@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/three";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
+import { useMediaQuery } from "react-responsive";
 
 interface Skill {
     title: string;
@@ -31,15 +32,18 @@ const skillsData: Skill[] = [
     { title: "Lightroom" },
 ];
 
-const screenBounds = { x: 5, y: 3, z: 5 };
+const getScreenBounds = (isMobile: boolean) => ({
+    x: isMobile ? 3 : 5,
+    y: isMobile ? 2 : 3,
+    z: isMobile ? 3 : 5,
+});
 
-const getRandomPosition = () => {
-    return new THREE.Vector3(
-        (Math.random() - 0.5) * screenBounds.x * 2,
-        (Math.random() - 0.5) * screenBounds.y * 2,
-        (Math.random() - 0.5) * screenBounds.z * 2
+const getRandomPosition = (bounds: { x: number; y: number; z: number }) =>
+    new THREE.Vector3(
+        (Math.random() - 0.5) * bounds.x * 2,
+        (Math.random() - 0.5) * bounds.y * 2,
+        (Math.random() - 0.5) * bounds.z * 2
     );
-};
 
 const getRandomVelocity = () => {
     const velocityScale = 0.05;
@@ -50,10 +54,11 @@ const getRandomVelocity = () => {
     );
 };
 
-const SkillItem: FC<{ title: string; initialPosition: THREE.Vector3 }> = ({
-    title,
-    initialPosition,
-}) => {
+const SkillItem: FC<{
+    title: string;
+    initialPosition: THREE.Vector3;
+    bounds: { x: number; y: number; z: number };
+}> = ({ title, initialPosition, bounds }) => {
     const [velocity, setVelocity] = useState(getRandomVelocity());
     const [hovered, setHovered] = useState(false);
     const [position, setPosition] = useState(initialPosition);
@@ -68,14 +73,27 @@ const SkillItem: FC<{ title: string; initialPosition: THREE.Vector3 }> = ({
     useFrame(() => {
         const newPosition = position.clone().add(velocity);
 
-        if (newPosition.x > screenBounds.x || newPosition.x < -screenBounds.x) {
+        // Check bounds and reverse velocity if needed
+        if (newPosition.x > bounds.x || newPosition.x < -bounds.x) {
             setVelocity((v) => new THREE.Vector3(-v.x, v.y, v.z));
+            newPosition.x = Math.max(
+                Math.min(newPosition.x, bounds.x),
+                -bounds.x
+            );
         }
-        if (newPosition.y > screenBounds.y || newPosition.y < -screenBounds.y) {
+        if (newPosition.y > bounds.y || newPosition.y < -bounds.y) {
             setVelocity((v) => new THREE.Vector3(v.x, -v.y, v.z));
+            newPosition.y = Math.max(
+                Math.min(newPosition.y, bounds.y),
+                -bounds.y
+            );
         }
-        if (newPosition.z > screenBounds.z || newPosition.z < -screenBounds.z) {
+        if (newPosition.z > bounds.z || newPosition.z < -bounds.z) {
             setVelocity((v) => new THREE.Vector3(v.x, v.y, -v.z));
+            newPosition.z = Math.max(
+                Math.min(newPosition.z, bounds.z),
+                -bounds.z
+            );
         }
 
         setPosition(newPosition);
@@ -105,10 +123,13 @@ const Skills: FC = () => {
         []
     );
 
+    const isMobile = useMediaQuery({ maxWidth: 1024 });
+    const bounds = getScreenBounds(isMobile);
+
     useEffect(() => {
-        const positions = skillsData.map(getRandomPosition);
+        const positions = skillsData.map(() => getRandomPosition(bounds));
         setInitialPositions(positions);
-    }, []);
+    }, [bounds]);
 
     return (
         initialPositions.length > 0 &&
@@ -117,6 +138,7 @@ const Skills: FC = () => {
                 key={index}
                 title={skill.title}
                 initialPosition={initialPositions[index]}
+                bounds={bounds} // Pass the bounds to each SkillItem
             />
         ))
     );

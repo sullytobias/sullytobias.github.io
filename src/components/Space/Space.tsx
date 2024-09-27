@@ -44,7 +44,7 @@ const Snowflakes = ({ count = 100 }) => {
         for (let i = 0; i < count; i++) {
             posArray.push({
                 x: (Math.random() - 0.5) * 20,
-                y: Math.random() * 10 + 5,
+                y: Math.random() * 10,
                 z: (Math.random() - 0.5) * 20,
                 speed: Math.random() * 0.02 + 0.01,
             });
@@ -96,7 +96,7 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
     return (
         <Fragment>
             <Overlay opacity={opacity} color={color} />
-            <Snowflakes count={150} /> {/* Add the Snowflakes here */}
+            <Snowflakes count={300} />
             {contentMap[activeCategory]}
         </Fragment>
     );

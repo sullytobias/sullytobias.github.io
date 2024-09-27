@@ -1,6 +1,7 @@
 import { useState, useEffect, FC } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/web";
+import { useMediaQuery } from "react-responsive"; // Import useMediaQuery
 
 import Loader from "./components/Loader/Loader";
 import FloatingText from "./components/FloatingText/FloatingText";
@@ -26,6 +27,8 @@ const App: FC = () => {
     const [activeCardIndex, setActiveCardIndex] = useState<number>(-1);
     const [interactionDisabled, setInteractionDisabled] = useState(false);
     const [showProjectList, setShowProjectList] = useState(false);
+
+    const isMobile = useMediaQuery({ maxWidth: 767 });
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -133,7 +136,7 @@ const App: FC = () => {
                         zIndex: 1000,
                         cursor: "pointer",
                         color: "white",
-                        fontSize: "3rem",
+                        fontSize: isMobile ? "1.5rem" : "3rem",
                     }}
                     onClick={handleCrossClick}
                 >
@@ -144,13 +147,14 @@ const App: FC = () => {
                 <animated.div
                     style={{
                         position: "fixed",
-                        top: "100px",
+                        top: isMobile ? "30px" : "100px",
                         left: "20px",
                         borderRadius: "8px",
                         padding: "10px",
-                        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
                         pointerEvents: "auto",
                         opacity: projectListOpacity,
+                        maxWidth: isMobile ? "90vw" : "300px",
+                        background: "rgba(0, 0, 0, 0.05)",
                     }}
                 >
                     <ul
@@ -175,7 +179,7 @@ const App: FC = () => {
                                                       .professional.color
                                                 : PROJECT_CATEGORIES.personal
                                                       .color,
-                                        fontSize: "1rem",
+                                        fontSize: isMobile ? "0.9rem" : "1rem",
                                     }}
                                 >
                                     {project.title}
