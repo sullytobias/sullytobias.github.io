@@ -10,7 +10,7 @@ import {
 } from "../../../utils/constants";
 
 const AnimatedSphere = animated(Sphere);
-const cupRadiusValue = 4;
+const cupRadiusValue = 5;
 
 const getRandomPosition = (cupRadius: number) => {
     const randomOffset = () => (Math.random() - 0.5) * cupRadius;
@@ -30,7 +30,7 @@ const ProjectCard: FC<{
     const { scale, color, opacity } = useSpring({
         scale: bumped ? 1.2 : 1,
         color: hovered ? "yellow" : sphereColor,
-        opacity: hovered || bumped ? 1 : 0.7,
+        opacity: hovered || bumped ? 1 : 0.8,
         config: { tension: 200, friction: 10 },
     });
 
@@ -99,11 +99,6 @@ const ProjectCard: FC<{
 
 const Projects: FC = () => {
     const [initialPositions, setInitialPositions] = useState<Vector3[]>([]);
-    const { cupOpacity } = useSpring({
-        from: { cupOpacity: 0 },
-        to: { cupOpacity: 1 },
-        config: { duration: 2000 },
-    });
 
     useEffect(() => {
         const positions = projectsData.map(
@@ -114,26 +109,33 @@ const Projects: FC = () => {
 
     return (
         <Physics colliders="ball">
-            <RigidBody type="fixed" colliders="trimesh" position={[0, -2, 0]}>
+            {/* Fixed RigidBody for the transparent cup */}
+            <RigidBody type="fixed" colliders="trimesh" position={[0, -1, 0]}>
                 <Cylinder
                     args={[cupRadiusValue, cupRadiusValue, 4, 64, 1, true]}
                 >
-                    <meshBasicMaterial opacity={0} transparent wireframe />
+                    <meshBasicMaterial
+                        opacity={0}
+                        color="white"
+                        transparent
+                        depthWrite={false}
+                    />
                 </Cylinder>
                 <Circle
                     args={[cupRadiusValue, 64]}
                     rotation={[-Math.PI / 2, 0, 0]}
                     position={[0, -2, 0]}
                 >
-                    <animated.meshStandardMaterial
-                        opacity={cupOpacity}
+                    <meshStandardMaterial
+                        opacity={0.1}
                         transparent
-                        wireframe
-                        color="white"
+                        color="black"
+                        depthWrite={false}
                     />
                 </Circle>
             </RigidBody>
 
+            {/* Render all spheres for projects */}
             {initialPositions.length > 0 &&
                 projectsData.map((project, index) => (
                     <ProjectCard
