@@ -1,5 +1,6 @@
 import { FC, Fragment, useMemo, useRef } from "react";
-import { animated, SpringValue } from "@react-spring/three";
+import { animated, useSpring } from "@react-spring/three";
+import { SpringValue } from "@react-spring/web";
 import { useFrame } from "@react-three/fiber";
 import { Mesh } from "three";
 import ContactInfo from "./Contact/Contact";
@@ -18,16 +19,23 @@ export const Overlay = ({
 }: {
     color: string;
     opacity: SpringValue<number>;
-}) => (
-    <mesh position={[0, 0, -5]}>
-        <planeGeometry args={[window.innerWidth, window.innerHeight]} />
-        <animated.meshStandardMaterial
-            color={color}
-            transparent
-            opacity={opacity}
-        />
-    </mesh>
-);
+}) => {
+    const { opacity: animatedOpacity } = useSpring({
+        opacity: opacity,
+        config: { duration: 500 },
+    });
+
+    return (
+        <mesh position={[0, 0, -5]}>
+            <planeGeometry args={[window.innerWidth, window.innerHeight]} />
+            <animated.meshStandardMaterial
+                color={color}
+                transparent
+                opacity={animatedOpacity}
+            />
+        </mesh>
+    );
+};
 
 const Snowflakes = ({ count = 100 }) => {
     const snowflakesRef = useRef<Mesh[]>([]);

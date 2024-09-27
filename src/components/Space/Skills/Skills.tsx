@@ -1,6 +1,7 @@
 import { FC, useState, useEffect } from "react";
+import { useFrame } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/three";
-import { Text, Shadow } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 import * as THREE from "three";
 
 interface Skill {
@@ -30,89 +31,95 @@ const skillsData: Skill[] = [
     { title: "Lightroom" },
 ];
 
+const screenBounds = { x: 5, y: 3, z: 5 };
+
 const getRandomPosition = () => {
-    const radius = 5;
-    const x = (Math.random() - 0.5) * radius * 2;
-    const y = (Math.random() - 0.5) * radius * 2;
-    const z = (Math.random() - 0.5) * radius * 2;
-    return [x, y, z];
+    return new THREE.Vector3(
+        (Math.random() - 0.5) * screenBounds.x * 2,
+        (Math.random() - 0.5) * screenBounds.y * 2,
+        (Math.random() - 0.5) * screenBounds.z * 2
+    );
+};
+
+const getRandomVelocity = () => {
+    const velocityScale = 0.05;
+    return new THREE.Vector3(
+        (Math.random() - 0.5) * velocityScale,
+        (Math.random() - 0.5) * velocityScale,
+        (Math.random() - 0.5) * velocityScale
+    );
 };
 
 const SkillItem: FC<{ title: string; initialPosition: THREE.Vector3 }> = ({
     title,
     initialPosition,
 }) => {
+    const [velocity, setVelocity] = useState(getRandomVelocity());
     const [hovered, setHovered] = useState(false);
+    const [position, setPosition] = useState(initialPosition);
 
-    const { position } = useSpring({
-        from: {
-            position: initialPosition.toArray(),
-            rotation: [0, 0, 0],
-        },
-        to: {
-            position: getRandomPosition(),
-            rotation: [
-                Math.random() * Math.PI * 2,
-                Math.random() * Math.PI * 2,
-                0,
-            ],
-        },
-        config: { mass: 1, tension: 150, friction: 50 },
+    const { opacity } = useSpring({
+        opacity: 1,
+        from: { opacity: 0 },
+        config: { mass: 10, tension: 120, friction: 20 },
+        delay: 300,
     });
 
-    const { scale, textDepth } = useSpring({
-        scale: hovered ? 1.2 : 1,
-        textDepth: hovered ? 0.15 : 0.05,
-        config: { mass: 10, tension: 120, friction: 20 },
+    useFrame(() => {
+        const newPosition = position.clone().add(velocity);
+
+        if (newPosition.x > screenBounds.x || newPosition.x < -screenBounds.x) {
+            setVelocity((v) => new THREE.Vector3(-v.x, v.y, v.z));
+        }
+        if (newPosition.y > screenBounds.y || newPosition.y < -screenBounds.y) {
+            setVelocity((v) => new THREE.Vector3(v.x, -v.y, v.z));
+        }
+        if (newPosition.z > screenBounds.z || newPosition.z < -screenBounds.z) {
+            setVelocity((v) => new THREE.Vector3(v.x, v.y, -v.z));
+        }
+
+        setPosition(newPosition);
     });
 
     return (
         <animated.group
-            position={position}
+            position={position.toArray()}
             onPointerOver={() => setHovered(true)}
             onPointerOut={() => setHovered(false)}
         >
-            <animated.mesh scale={scale}>
-                <TextAnimated
-                    fontSize={0.5}
-                    color={hovered ? "#FF6347" : "white"}
-                    anchorX="center"
-                    anchorY="middle"
-                    depthOffset={textDepth}
-                >
-                    {title}
-                </TextAnimated>
-                <Shadow
-                    position={[0, -0.2, 0]}
-                    scale={[1, 1, 1]}
-                    color="black"
-                    opacity={0.3}
-                    rotation={[Math.PI / 2, 0, 0]}
-                />
-            </animated.mesh>
+            <TextAnimated
+                fontSize={0.5}
+                color={hovered ? "#FF6347" : "white"}
+                anchorX="center"
+                anchorY="middle"
+                fillOpacity={opacity}
+            >
+                {title}
+            </TextAnimated>
         </animated.group>
     );
 };
 
-const SkillsCloud: FC = () => {
+const Skills: FC = () => {
     const [initialPositions, setInitialPositions] = useState<THREE.Vector3[]>(
         []
     );
 
     useEffect(() => {
-        const positions = skillsData.map(
-            () => new THREE.Vector3(...getRandomPosition())
-        );
+        const positions = skillsData.map(getRandomPosition);
         setInitialPositions(positions);
     }, []);
 
-    return skillsData.map((skill, index) => (
-        <SkillItem
-            key={index}
-            title={skill.title}
-            initialPosition={initialPositions[index] || new THREE.Vector3()}
-        />
-    ));
+    return (
+        initialPositions.length > 0 &&
+        skillsData.map((skill, index) => (
+            <SkillItem
+                key={index}
+                title={skill.title}
+                initialPosition={initialPositions[index]}
+            />
+        ))
+    );
 };
 
-export default SkillsCloud;
+export default Skills;

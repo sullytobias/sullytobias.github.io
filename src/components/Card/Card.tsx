@@ -37,7 +37,7 @@ const Card: FC<CardProps> = ({
     });
 
     return (
-        <group key={cardColor}>
+        <group>
             <animated.mesh
                 ref={meshRef}
                 position-x={positionX}
@@ -46,10 +46,10 @@ const Card: FC<CardProps> = ({
                 onPointerOut={() => (document.body.style.cursor = "auto")}
                 scale={scale.to((x, y, z) => [x, y, z])}
             >
-                <boxGeometry args={[2, 2, 2, 3, 3, 3]} />
+                <sphereGeometry args={[1, 32, 32]} />
                 <animated.meshStandardMaterial
                     color={cardColor}
-                    wireframe
+                    wireframe={true}
                     transparent
                     opacity={opacity}
                 />

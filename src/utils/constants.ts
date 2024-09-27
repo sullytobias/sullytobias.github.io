@@ -1,15 +1,17 @@
-type Category = {
+type CategoryTitle = "Contacts" | "Skills" | "Projects";
+
+interface Category {
     cardColor: string;
     cardPositionX: number;
-    categoryTitle: "Contacts" | "Skills" | "Projects";
-};
+    categoryTitle: CategoryTitle;
+}
 
 export type ProjectCategory = "professional" | "personal";
 
 const getRandomColor = (): string =>
-    `rgb(${[...Array(3)]
-        .map(() => Math.floor(Math.random() * 256))
-        .join(", ")})`;
+    `rgb(${Array.from({ length: 3 }, () =>
+        Math.floor(Math.random() * 256)
+    ).join(", ")})`;
 
 export const LOADING_TEXT = {
     loading: "Loading Space",

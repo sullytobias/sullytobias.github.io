@@ -1,7 +1,8 @@
 import { useRef, FC } from "react";
 import { SpotLight as SpotLightType } from "three";
 import { useFrame } from "@react-three/fiber";
-import { animated, SpringValue } from "@react-spring/three";
+import { animated, useSpring } from "@react-spring/three";
+import { SpringValue } from "@react-spring/web";
 
 type SpotLightProps = {
     intensity: SpringValue<number>;
@@ -9,6 +10,11 @@ type SpotLightProps = {
 
 const SpotLight: FC<SpotLightProps> = ({ intensity }) => {
     const lightRef = useRef<SpotLightType>(null!);
+
+    const { intensity: animatedIntensity } = useSpring({
+        intensity,
+        config: { duration: 1000 },
+    });
 
     useFrame(({ clock: { elapsedTime } }) => {
         if (lightRef.current) {
@@ -23,7 +29,7 @@ const SpotLight: FC<SpotLightProps> = ({ intensity }) => {
     return (
         <animated.spotLight
             ref={lightRef}
-            intensity={intensity}
+            intensity={animatedIntensity}
             position={[0, 7, 0]}
             angle={3}
             penumbra={1}

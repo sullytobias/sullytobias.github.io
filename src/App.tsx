@@ -8,6 +8,7 @@ import LightButton from "./components/LightButton/LightButton";
 import GroupCard from "./components/GroupCard/GroupCard";
 import SpotLight from "./components/Lights/Spotlight/Spotlight";
 import Space from "./components/Space/Space";
+import TypingText from "./components/TypingText/TypingText";
 
 import {
     CATEGORIES,
@@ -15,7 +16,6 @@ import {
     PROJECT_CATEGORIES,
     projectsData,
 } from "./utils/constants";
-import TypingText from "./components/TypingText/TypingText";
 
 const App: FC = () => {
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
@@ -52,7 +52,6 @@ const App: FC = () => {
             setLoadingText(LOADING_TEXT.loaded);
             setIsLoaderVisible(false);
         }, 5000);
-
         return () => clearTimeout(timeoutId);
     }, []);
 
@@ -69,9 +68,7 @@ const App: FC = () => {
     }, [activeCardIndex]);
 
     const handleTextComplete = () => setShowButton(true);
-
     const handleButtonClick = () => setLightOn(true);
-
     const handleCardClick = (index: number) => {
         setActiveCardIndex(index);
         setEnteringSphere(true);
@@ -136,7 +133,7 @@ const App: FC = () => {
                         zIndex: 1000,
                         cursor: "pointer",
                         color: "white",
-                        fontSize: "2rem",
+                        fontSize: "3rem",
                     }}
                     onClick={handleCrossClick}
                 >

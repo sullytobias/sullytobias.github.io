@@ -73,6 +73,7 @@ const ProjectCard: FC<{
                         color={color}
                         opacity={opacity}
                         transparent
+                        wireframe
                         roughness={0.7}
                         metalness={1}
                     />
@@ -109,10 +110,10 @@ const Projects: FC = () => {
 
     return (
         <Physics colliders="ball">
-            {/* Fixed RigidBody for the transparent cup */}
             <RigidBody type="fixed" colliders="trimesh" position={[0, -1, 0]}>
                 <Cylinder
-                    args={[cupRadiusValue, cupRadiusValue, 4, 64, 1, true]}
+                    position={[0, 1, 0]}
+                    args={[cupRadiusValue, cupRadiusValue, 6, 64, 1, true]}
                 >
                     <meshBasicMaterial
                         opacity={0}
@@ -135,7 +136,6 @@ const Projects: FC = () => {
                 </Circle>
             </RigidBody>
 
-            {/* Render all spheres for projects */}
             {initialPositions.length > 0 &&
                 projectsData.map((project, index) => (
                     <ProjectCard

@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-import { useSpring, animated, SpringValue } from "@react-spring/three";
+import { useSpring, animated } from "@react-spring/three";
+import { SpringValue } from "@react-spring/web";
 import { Vector3, Mesh } from "three";
 
 type FloatingTextProps = {
@@ -32,9 +33,15 @@ const FloatingText: React.FC<FloatingTextProps> = ({
             meshRef.current.position.lerp(targetPosition, 0.1);
             meshRef.current.children.forEach((child) => {
                 const meshChild = child as Mesh;
+
                 if (meshChild.material) {
-                    meshChild.material.opacity =
-                        overridedOpacity.get() ?? opacity.get();
+                    const material = Array.isArray(meshChild.material)
+                        ? meshChild.material[0]
+                        : meshChild.material;
+
+                    if (material.opacity !== undefined)
+                        material.opacity =
+                            overridedOpacity.get() ?? opacity.get();
                 }
             });
         }
