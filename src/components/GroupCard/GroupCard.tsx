@@ -54,7 +54,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
                     const isActive = index === activeCardIndex;
 
                     const positionX = isMobile ? 0 : cardPositionX;
-                    const positionY = isMobile ? cardPositionX * 0.8 : 0;
+                    const positionY = isMobile ? -cardPositionX * 0.8 : 0;
 
                     return (
                         <Card
