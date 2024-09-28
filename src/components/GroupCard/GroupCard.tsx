@@ -4,7 +4,6 @@ import { useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { useSpring, animated } from "@react-spring/three";
 import { useMediaQuery } from "react-responsive";
-import { useSound } from "../../context/SoundContext";
 
 type CategoryType = {
     cardPositionX: number;

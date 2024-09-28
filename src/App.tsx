@@ -51,7 +51,7 @@ const App: FC = () => {
         });
 
         if (isBackgroundPlaying) ambientWindSound.play();
-        else ambientWindSound.pause();
+        else ambientWindSound.mute();
 
         return () => {
             ambientWindSound.stop();
@@ -239,7 +239,7 @@ const App: FC = () => {
                 <animated.div
                     style={{
                         position: "fixed",
-                        top: isMobile ? "30px" : "100px",
+                        top: isMobile ? "60px" : "100px",
                         left: "20px",
                         borderRadius: "8px",
                         padding: "10px",

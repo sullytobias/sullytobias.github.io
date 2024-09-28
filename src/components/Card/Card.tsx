@@ -62,7 +62,8 @@ const Card: FC<CardProps> = ({
             <animated.mesh>
                 <Text
                     position={[positionX, positionY, 0]}
-                    fontSize={0.4}
+                    fontSize={0.3}
+                    letterSpacing={1.1}
                     fontWeight={700}
                     color={colorPalette.white}
                     anchorX="center"

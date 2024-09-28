@@ -20,6 +20,8 @@ const skillsData: Skill[] = [
     { title: "Redux" },
     { title: "MobX" },
     { title: "Handlebar" },
+    { title: "Rapier" },
+    { title: "React Spring" },
     { title: "NodeJs" },
     { title: "AEM" },
     { title: "TS" },
@@ -48,6 +50,7 @@ const getRandomPosition = (bounds: { x: number; y: number; z: number }) =>
 
 const getRandomVelocity = () => {
     const velocityScale = 0.05;
+
     return new THREE.Vector3(
         (Math.random() - 0.5) * velocityScale,
         (Math.random() - 0.5) * velocityScale,
