@@ -1,4 +1,4 @@
-import { createContext, useState, FC, useContext } from "react";
+import { createContext, useState, FC, useContext, ReactNode } from "react";
 
 type SoundContextType = {
     isBackgroundPlaying: boolean;
@@ -9,13 +9,16 @@ type SoundContextType = {
 
 const SoundContext = createContext<SoundContextType | undefined>(undefined);
 
-export const SoundProvider: FC = ({ children }) => {
+interface SoundProviderProps {
+    children: ReactNode;
+}
+
+export const SoundProvider: FC<SoundProviderProps> = ({ children }) => {
     const [isBackgroundPlaying, setIsBackgroundPlaying] = useState(true);
     const [isFxPlaying, setIsFxPlaying] = useState(true);
 
-    const toggleBackgroundSound = () =>
-        setIsBackgroundPlaying(!isBackgroundPlaying);
-    const toggleFxSound = () => setIsFxPlaying(!isFxPlaying);
+    const toggleBackgroundSound = () => setIsBackgroundPlaying((prev) => !prev);
+    const toggleFxSound = () => setIsFxPlaying((prev) => !prev);
 
     return (
         <SoundContext.Provider
@@ -34,8 +37,9 @@ export const SoundProvider: FC = ({ children }) => {
 export const useSound = (): SoundContextType => {
     const context = useContext(SoundContext);
 
-    if (!context)
+    if (!context) {
         throw new Error("useSound must be used within a SoundProvider");
+    }
 
     return context;
 };
