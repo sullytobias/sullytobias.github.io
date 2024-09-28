@@ -31,7 +31,3 @@ This portfolio was built using a modern tech stack, focusing on performance, res
 ## 📞 Contact
 
 If you'd like to get in touch, feel free to reach out to me via [LinkedIn](https://www.linkedin.com/in/sullivan-tobias-340807157) or check out my other projects on [GitHub](https://github.com/sullytobias).
-
----
-
-This template provides a professional yet concise overview of your portfolio. Let me know if you'd like to customize any details further!
