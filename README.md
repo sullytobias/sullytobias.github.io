@@ -1,30 +1,35 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my **Developer Portfolio**! This is a showcase of my skills, projects, and experience in front-end web development. It highlights my journey as a developer and demonstrates my ability to build engaging, interactive, and visually appealing web applications.
 
-Currently, two official plugins are available:
+## 🔧 Technologies Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This portfolio was built using a modern tech stack, focusing on performance, responsiveness, and interactivity:
 
-## Expanding the ESLint configuration
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: Ensures robust, type-safe code.
+- **React Three Fiber**: Enables 3D graphics within the web, built on top of Three.js.
+- **react-spring**: Powers smooth animations for transitions and dynamic elements.
+- **Howler.js**: Handles audio playback, including background music and sound effects.
+- **react-responsive**: Allows for responsive design adjustments across multiple screen sizes.
+- **Sass/SCSS**: Used for styling components with clean, reusable code.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🎨 Key Features
 
-- Configure the top-level `parserOptions` property like this:
+- **Interactive 3D Spheres**: Navigate through my projects and categories with 3D animations.
+- **Sound Effects**: Toggle background music and sound effects to enhance the user experience.
+- **Smooth Animations**: Experience seamless transitions between different sections of the portfolio.
+- **Responsive Design**: Fully optimized for both desktop and mobile users.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## 🌱 Future Improvements
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Add a **dark mode** toggle for better accessibility.
+- Expand the project section with more detailed case studies.
+- Optimize performance for faster load times on mobile devices.
+
+## 📞 Contact
+
+If you'd like to get in touch, feel free to reach out to me via [LinkedIn](https://www.linkedin.com/in/sullivan-tobias-340807157) or check out my other projects on [GitHub](https://github.com/sullytobias).
+
+---
+
+This template provides a professional yet concise overview of your portfolio. Let me know if you'd like to customize any details further!
