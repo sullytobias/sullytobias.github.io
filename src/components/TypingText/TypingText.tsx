@@ -1,6 +1,7 @@
 import { useEffect, useState, FC } from "react";
 import { Text } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
+import { colorPalette } from "../../utils/constants";
 
 type TypingTextProps = {
     text: string;
@@ -35,7 +36,7 @@ const TypingText: FC<TypingTextProps> = ({ text, onComplete }) => {
     return (
         <animated.mesh>
             <Text
-                color="white"
+                color={colorPalette.mintGreen}
                 fontSize={0.4}
                 maxWidth={getMaxWidth()}
                 lineHeight={2}

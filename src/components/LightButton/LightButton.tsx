@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { Mesh, PointLight } from "three";
 import { Text } from "@react-three/drei";
 import { animated, useSpring } from "@react-spring/three";
+import { colorPalette } from "../../utils/constants";
 
 type LightButtonProps = {
     onClick: () => void;
@@ -35,7 +36,7 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
     });
 
     const { color } = useSpring({
-        color: hovered ? "red" : "white",
+        color: hovered ? colorPalette.lightGold : colorPalette.white,
         config: { tension: 50, friction: 10 },
     });
 
@@ -68,10 +69,10 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
                 />
             </animated.mesh>
 
-            <animated.pointLight ref={lightRef} color="white" />
+            <animated.pointLight ref={lightRef} color={colorPalette.white} />
 
             <Text
-                color="white"
+                color={colorPalette.white}
                 fontSize={0.15}
                 fontWeight={700}
                 maxWidth={2}

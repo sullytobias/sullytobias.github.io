@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Html, Text } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
+import { colorPalette } from "../../../utils/constants";
 
 const AnimatedText = animated(Text);
 
@@ -60,7 +61,7 @@ const ContactInfo: FC = () => {
                             style={{
                                 cursor: "pointer",
                                 fontSize: `${iconScale}rem`,
-                                color: "#FFFC31",
+                                color: colorPalette.lightGold,
                                 transform:
                                     hoveredIndex === index
                                         ? "scale(1.2)"

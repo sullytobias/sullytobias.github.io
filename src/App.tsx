@@ -3,6 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/web";
 import { useMediaQuery } from "react-responsive";
 
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
+
 import { Howl } from "howler";
 
 import Loader from "./components/Loader/Loader";
@@ -15,12 +17,21 @@ import TypingText from "./components/TypingText/TypingText";
 
 import {
     CATEGORIES,
+    colorPalette,
     LOADING_TEXT,
     PROJECT_CATEGORIES,
     projectsData,
 } from "./utils/constants";
+import { useSound } from "./context/SoundContext";
 
 const App: FC = () => {
+    const {
+        isBackgroundPlaying,
+        isFxPlaying,
+        toggleBackgroundSound,
+        toggleFxSound,
+    } = useSound();
+
     const [loadingText, setLoadingText] = useState(LOADING_TEXT.loading);
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const [showButton, setShowButton] = useState(false);
@@ -36,15 +47,16 @@ const App: FC = () => {
         const ambientWindSound = new Howl({
             src: ["/sounds/background.mp3"],
             loop: true,
-            volume: 0.08,
+            volume: 0.03,
         });
 
-        ambientWindSound.play();
+        if (isBackgroundPlaying) ambientWindSound.play();
+        else ambientWindSound.pause();
 
         return () => {
             ambientWindSound.stop();
         };
-    }, []);
+    }, [isBackgroundPlaying]);
 
     const { opacity } = useSpring({
         opacity: isLoaderVisible ? 1 : 0,
@@ -87,13 +99,23 @@ const App: FC = () => {
     }, [activeCardIndex]);
 
     const handleTextComplete = () => setShowButton(true);
-    const handleButtonClick = () => setLightOn(true);
+    const handleButtonClick = () => {
+        const lightOnSound = new Howl({
+            src: ["/sounds/lightOnClick.mp3"],
+            volume: 0.3,
+        });
+
+        isFxPlaying && lightOnSound.play();
+
+        setLightOn(true);
+    };
     const handleCardClick = (index: number) => {
         const clickSound = new Howl({
             src: ["/sounds/categoryClick.mp3"],
             volume: 0.2,
         });
-        clickSound.play();
+
+        isFxPlaying && clickSound.play();
 
         setActiveCardIndex(index);
         setEnteringSphere(true);
@@ -105,10 +127,11 @@ const App: FC = () => {
 
     const handleCrossClick = () => {
         const crossClickSound = new Howl({
-            src: ["/sounds/click-cross.mp3"],
-            volume: 0.2,
+            src: ["/sounds/closeClick.mp3"],
+            volume: 0.5,
         });
-        crossClickSound.play();
+
+        isFxPlaying && crossClickSound.play();
 
         setEnteringSphere(false);
         setActiveCardIndex(-1);
@@ -121,9 +144,44 @@ const App: FC = () => {
                 height: "100vh",
                 width: "100vw",
                 position: "relative",
-                backgroundColor: "black",
+                backgroundColor: colorPalette.black,
             }}
         >
+            <button
+                style={{
+                    zIndex: 1,
+                    position: "fixed",
+                    top: "20px",
+                    left: "20px",
+                    backgroundColor: "transparent",
+                    border: "none",
+                }}
+                onClick={toggleBackgroundSound}
+            >
+                {isBackgroundPlaying ? (
+                    <FaPause color={colorPalette.white} size={24} />
+                ) : (
+                    <FaPlay color={colorPalette.white} size={24} />
+                )}
+            </button>
+
+            <button
+                style={{
+                    zIndex: 1,
+                    position: "fixed",
+                    top: "20px",
+                    left: "90px",
+                    backgroundColor: "transparent",
+                    border: "none",
+                }}
+                onClick={toggleFxSound}
+            >
+                {isFxPlaying ? (
+                    <FaVolumeUp color={colorPalette.white} size={24} />
+                ) : (
+                    <FaVolumeMute color={colorPalette.white} size={24} />
+                )}
+            </button>
             <Canvas camera={{ position: [0, 0, 10] }}>
                 <ambientLight intensity={0.3} />
                 <SpotLight intensity={intensity} />
@@ -159,16 +217,22 @@ const App: FC = () => {
                 <div
                     style={{
                         position: "fixed",
-                        top: "20px",
-                        right: "20px",
+                        top: "30px",
+                        right: "30px",
                         zIndex: 1000,
                         cursor: "pointer",
-                        color: "white",
-                        fontSize: isMobile ? "1.5rem" : "3rem",
                     }}
                     onClick={handleCrossClick}
                 >
-                    ✖
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill={colorPalette.lightGold}
+                        width={isMobile ? "1.5rem" : "2rem"}
+                        height={isMobile ? "1.5rem" : "2rem"}
+                    >
+                        <path d="M19.3 5.71c-.39-.39-1.02-.39-1.41 0L12 11.59 6.11 5.71a.9959.9959 0 0 0-1.41 1.41l5.88 5.88-5.88 5.88a.9959.9959 0 1 0 1.41 1.41l5.88-5.88 5.88 5.88a.9959.9959 0 1 0 1.41-1.41L13.41 12l5.88-5.88c.39-.39.39-1.02 0-1.41z" />
+                    </svg>
                 </div>
             )}
             {activeCardIndex === 1 && (

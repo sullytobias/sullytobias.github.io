@@ -4,11 +4,16 @@ import { Vector3 } from "three";
 import { Physics, RigidBody } from "@react-three/rapier";
 import { animated, useSpring } from "@react-spring/three";
 import {
+    colorPalette,
     PROJECT_CATEGORIES,
     ProjectCategory,
     projectsData,
 } from "../../../utils/constants";
+import { useSound } from "../../../context/SoundContext";
+
 import { useMediaQuery } from "react-responsive";
+
+import { Howl } from "howler";
 
 const AnimatedSphere = animated(Sphere);
 const getRandomPosition = (cupRadius: number) => {
@@ -22,17 +27,31 @@ const ProjectCard: FC<{
     category: ProjectCategory;
     initialPosition: Vector3;
     isMobile: boolean;
-}> = ({ title, link, category, initialPosition, isMobile }) => {
+    isFxPlaying: boolean;
+}> = ({ title, link, category, initialPosition, isMobile, isFxPlaying }) => {
     const [hovered, setHovered] = useState(false);
     const [bumped, setBumped] = useState(false);
+    const [collisionCount, setCollisionCount] = useState(0);
     const sphereColor = PROJECT_CATEGORIES[category]?.color;
 
     const { scale, color, opacity } = useSpring({
         scale: bumped ? 1.2 : 1,
-        color: hovered ? "yellow" : sphereColor,
+        color: hovered ? colorPalette.lightGold : sphereColor,
         opacity: hovered || bumped ? 1 : 0.8,
         config: { tension: 200, friction: 10 },
     });
+
+    const playCollisionSound = () => {
+        if (collisionCount < 3) {
+            const collisionSound = new Howl({
+                src: ["/sounds/ballColliding.mp3"],
+                volume: 0.01,
+            });
+            isFxPlaying && collisionSound.play();
+
+            setCollisionCount(collisionCount + 1);
+        }
+    };
 
     const handlePointerOver = () => {
         document.body.style.cursor = "pointer";
@@ -46,6 +65,14 @@ const ProjectCard: FC<{
 
     const handleClick = () => {
         setBumped(true);
+
+        const projectClickSound = new Howl({
+            src: ["/sounds/projectClick.mp3"],
+            volume: 0.5,
+        });
+
+        isFxPlaying && projectClickSound.play();
+
         setTimeout(() => {
             setBumped(false);
             window.open(link, "_blank");
@@ -62,6 +89,7 @@ const ProjectCard: FC<{
             ]}
             mass={1}
             restitution={0.1}
+            onCollisionEnter={playCollisionSound} // Trigger sound on collision
         >
             <group
                 onPointerOver={handlePointerOver}
@@ -86,7 +114,7 @@ const ProjectCard: FC<{
                         style={{
                             fontSize: isMobile ? "0.5rem" : "0.7rem",
                             fontWeight: "bold",
-                            color: "white",
+                            color: colorPalette.white,
                             pointerEvents: "none",
                         }}
                     >
@@ -99,10 +127,12 @@ const ProjectCard: FC<{
 };
 
 const Projects: FC = () => {
+    const { isFxPlaying } = useSound();
+
     const [initialPositions, setInitialPositions] = useState<Vector3[]>([]);
 
     const isMobile = useMediaQuery({ maxWidth: 767 });
-    const cupRadiusValue = isMobile ? 3 : 5; // Smaller radius on mobile
+    const cupRadiusValue = isMobile ? 3 : 5;
 
     useEffect(() => {
         const positions = projectsData.map(
@@ -124,7 +154,7 @@ const Projects: FC = () => {
                 >
                     <meshBasicMaterial
                         opacity={0}
-                        color="white"
+                        color={colorPalette.white}
                         transparent
                         depthWrite={false}
                     />
@@ -137,7 +167,7 @@ const Projects: FC = () => {
                     <meshStandardMaterial
                         opacity={0.1}
                         transparent
-                        color="black"
+                        color={colorPalette.black}
                         depthWrite={false}
                     />
                 </Circle>
@@ -146,6 +176,7 @@ const Projects: FC = () => {
             {initialPositions.length > 0 &&
                 projectsData.map((project, index) => (
                     <ProjectCard
+                        isFxPlaying={isFxPlaying}
                         isMobile={isMobile}
                         key={index}
                         category={project.category}

@@ -4,6 +4,7 @@ import { useSpring, animated } from "@react-spring/three";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import { useMediaQuery } from "react-responsive";
+import { colorPalette } from "../../../utils/constants";
 
 interface Skill {
     title: string;
@@ -73,7 +74,6 @@ const SkillItem: FC<{
     useFrame(() => {
         const newPosition = position.clone().add(velocity);
 
-        // Check bounds and reverse velocity if needed
         if (newPosition.x > bounds.x || newPosition.x < -bounds.x) {
             setVelocity((v) => new THREE.Vector3(-v.x, v.y, v.z));
             newPosition.x = Math.max(
@@ -81,6 +81,7 @@ const SkillItem: FC<{
                 -bounds.x
             );
         }
+
         if (newPosition.y > bounds.y || newPosition.y < -bounds.y) {
             setVelocity((v) => new THREE.Vector3(v.x, -v.y, v.z));
             newPosition.y = Math.max(
@@ -88,6 +89,7 @@ const SkillItem: FC<{
                 -bounds.y
             );
         }
+
         if (newPosition.z > bounds.z || newPosition.z < -bounds.z) {
             setVelocity((v) => new THREE.Vector3(v.x, v.y, -v.z));
             newPosition.z = Math.max(
@@ -107,7 +109,7 @@ const SkillItem: FC<{
         >
             <TextAnimated
                 fontSize={0.5}
-                color={hovered ? "#FF6347" : "white"}
+                color={hovered ? colorPalette.mintGreen : colorPalette.white}
                 anchorX="center"
                 anchorY="middle"
                 fillOpacity={opacity}
@@ -138,7 +140,7 @@ const Skills: FC = () => {
                 key={index}
                 title={skill.title}
                 initialPosition={initialPositions[index]}
-                bounds={bounds} // Pass the bounds to each SkillItem
+                bounds={bounds}
             />
         ))
     );

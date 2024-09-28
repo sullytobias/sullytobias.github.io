@@ -1,4 +1,4 @@
-type CategoryTitle = "Contacts" | "Skills" | "Projects";
+type CategoryTitle = "CONTACTS" | "SKILLS" | "PROJECTS";
 
 interface Category {
     cardColor: string;
@@ -8,10 +8,15 @@ interface Category {
 
 export type ProjectCategory = "professional" | "personal";
 
-const getRandomColor = (): string =>
-    `rgb(${Array.from({ length: 3 }, () =>
-        Math.floor(Math.random() * 256)
-    ).join(", ")})`;
+export const colorPalette = {
+    coralRed: "#FF6B6B",
+    mintGreen: "#6BCB77",
+    skyBlue: "#4D96FF",
+    brightPurple: "#F37CFF",
+    lightGold: "#FFE156",
+    black: "#000",
+    white: "#fff",
+};
 
 export const LOADING_TEXT = {
     loading: "Loading Space",
@@ -30,16 +35,20 @@ export const PROJECT_CATEGORIES = {
 };
 
 export const CATEGORIES: Category[] = [
-    { categoryTitle: "Skills", cardPositionX: 0, cardColor: getRandomColor() },
     {
-        categoryTitle: "Projects",
-        cardPositionX: -7,
-        cardColor: getRandomColor(),
+        categoryTitle: "SKILLS",
+        cardPositionX: 0,
+        cardColor: colorPalette.brightPurple,
     },
     {
-        categoryTitle: "Contacts",
+        categoryTitle: "PROJECTS",
+        cardPositionX: -7,
+        cardColor: colorPalette.coralRed,
+    },
+    {
+        categoryTitle: "CONTACTS",
         cardPositionX: 7,
-        cardColor: getRandomColor(),
+        cardColor: colorPalette.mintGreen,
     },
 ];
 

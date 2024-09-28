@@ -6,11 +6,12 @@ import { Mesh } from "three";
 import ContactInfo from "./Contact/Contact";
 import Skills from "./Skills/Skills";
 import Projects from "./Projects/Projects";
+import { colorPalette } from "../../utils/constants";
 
 type SpaceProps = {
     color: string;
     opacity: SpringValue<number>;
-    activeCategory: "Contacts" | "Skills" | "Projects";
+    activeCategory: "CONTACTS" | "SKILLS" | "PROJECTS";
 };
 
 export const Overlay = ({
@@ -76,7 +77,7 @@ const Snowflakes = ({ count = 100 }) => {
                     position={[pos.x, pos.y, pos.z]}
                 >
                     <sphereGeometry args={[0.05, 8, 8]} />
-                    <meshBasicMaterial color="white" />
+                    <meshBasicMaterial color={colorPalette.skyBlue} />
                 </mesh>
             ))}
         </group>
@@ -86,9 +87,9 @@ const Snowflakes = ({ count = 100 }) => {
 const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
     const contentMap = useMemo(
         () => ({
-            Contacts: <ContactInfo />,
-            Skills: <Skills />,
-            Projects: <Projects />,
+            CONTACTS: <ContactInfo />,
+            SKILLS: <Skills />,
+            PROJECTS: <Projects />,
         }),
         []
     );

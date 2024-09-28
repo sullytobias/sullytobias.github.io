@@ -3,6 +3,7 @@ import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/three";
 import { Text } from "@react-three/drei";
+import { colorPalette } from "../../utils/constants";
 
 type CardProps = {
     positionX: number;
@@ -63,7 +64,7 @@ const Card: FC<CardProps> = ({
                     position={[positionX, positionY, 0]}
                     fontSize={0.4}
                     fontWeight={700}
-                    color="white"
+                    color={colorPalette.white}
                     anchorX="center"
                     anchorY="middle"
                 >

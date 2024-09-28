@@ -4,6 +4,7 @@ import { Text } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
 import { SpringValue } from "@react-spring/web";
 import { Vector3, Mesh } from "three";
+import { colorPalette } from "../../utils/constants";
 
 type FloatingTextProps = {
     text: string;
@@ -50,7 +51,7 @@ const FloatingText: React.FC<FloatingTextProps> = ({
     return (
         <animated.mesh ref={meshRef}>
             <Text
-                color="#FFFC31"
+                color={colorPalette.lightGold}
                 fontSize={0.4}
                 maxWidth={200}
                 lineHeight={1}
