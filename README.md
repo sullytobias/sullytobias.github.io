@@ -1,5 +1,5 @@
 
-Welcome to my **Developer Portfolio**! This is a showcase of my skills, projects, and experience in front-end web development. It highlights my journey as a developer and demonstrates my ability to build engaging, interactive, and visually appealing web applications.
+Welcome to my **Portfolio** This is a showcase of my skills, projects, and experience in front-end web development. It highlights my journey as a developer and demonstrates my ability to build engaging, interactive, and visually appealing web applications.
 
 ## 🔧 Technologies Used
 
