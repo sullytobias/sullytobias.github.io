@@ -10,15 +10,13 @@ import {
     projectsData,
 } from "../../../utils/constants";
 import { useSound } from "../../../context/SoundContext";
-
 import { useMediaQuery } from "react-responsive";
-
 import { Howl } from "howler";
 
 const AnimatedSphere = animated(Sphere);
 const getRandomPosition = (cupRadius: number) => {
     const randomOffset = () => (Math.random() - 0.5) * cupRadius;
-    return [randomOffset(), randomOffset(), randomOffset()];
+    return [randomOffset(), -12, randomOffset()];
 };
 
 const ProjectCard: FC<{
@@ -36,7 +34,7 @@ const ProjectCard: FC<{
 
     const { scale, color, opacity } = useSpring({
         scale: bumped ? 1.2 : 1,
-        color: hovered ? colorPalette.lightGold : sphereColor,
+        color: hovered ? colorPalette.lime : sphereColor,
         opacity: hovered || bumped ? 1 : 0.8,
         config: { tension: 200, friction: 10 },
     });
@@ -89,7 +87,7 @@ const ProjectCard: FC<{
             ]}
             mass={1}
             restitution={0.1}
-            onCollisionEnter={playCollisionSound} // Trigger sound on collision
+            onCollisionEnter={playCollisionSound}
         >
             <group
                 onPointerOver={handlePointerOver}
@@ -97,7 +95,7 @@ const ProjectCard: FC<{
                 onClick={handleClick}
             >
                 <AnimatedSphere
-                    args={[isMobile ? 0.4 : 0.5, 32, 32]}
+                    args={[isMobile ? 0.5 : 0.6, 32, 32]}
                     scale={scale}
                 >
                     <animated.meshStandardMaterial
@@ -112,8 +110,8 @@ const ProjectCard: FC<{
                 <Html position={[0, 0.6, 0]} center>
                     <div
                         style={{
-                            fontSize: isMobile ? "0.5rem" : "0.7rem",
-                            fontWeight: "bold",
+                            fontSize: isMobile ? "0.7rem" : "1rem",
+                            fontFamily: "Montserrat",
                             color: colorPalette.white,
                             pointerEvents: "none",
                         }}
@@ -128,9 +126,7 @@ const ProjectCard: FC<{
 
 const Projects: FC = () => {
     const { isFxPlaying } = useSound();
-
     const [initialPositions, setInitialPositions] = useState<Vector3[]>([]);
-
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const cupRadiusValue = isMobile ? 3 : 5;
 
@@ -143,11 +139,7 @@ const Projects: FC = () => {
 
     return (
         <Physics colliders="ball">
-            <RigidBody
-                type="fixed"
-                colliders="trimesh"
-                position={[0, isMobile ? -2.5 : -1, 0]}
-            >
+            <RigidBody type="fixed" colliders="trimesh" position={[0, 0, 0]}>
                 <Cylinder
                     position={[0, 1, 0]}
                     args={[cupRadiusValue, cupRadiusValue, 6, 64, 1, true]}
@@ -166,6 +158,7 @@ const Projects: FC = () => {
                 >
                     <meshStandardMaterial
                         opacity={0.1}
+                        wireframe
                         transparent
                         color={colorPalette.black}
                         depthWrite={false}

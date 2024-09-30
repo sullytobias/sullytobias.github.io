@@ -9,11 +9,11 @@ interface Category {
 export type ProjectCategory = "professional" | "personal";
 
 export const colorPalette = {
-    coralRed: "#FF6B6B",
-    mintGreen: "#6BCB77",
-    skyBlue: "#4D96FF",
-    brightPurple: "#F37CFF",
-    lightGold: "#FFE156",
+    silverLakeBlue: "#6290C3",
+    mintGreen: "#c2e7da",
+    honeydrew: "#f1ffe7",
+    yaleBlue: "#0D3B66",
+    lime: "#baff29",
     black: "#000",
     white: "#fff",
 };
@@ -25,30 +25,30 @@ export const LOADING_TEXT = {
 
 export const PROJECT_CATEGORIES = {
     professional: {
-        color: "#4CAF50",
+        color: colorPalette.silverLakeBlue,
         title: "Professional Projects",
     },
     personal: {
-        color: "#2196F3",
+        color: colorPalette.white,
         title: "Personal Projects",
     },
 };
 
 export const CATEGORIES: Category[] = [
     {
-        categoryTitle: "SKILLS",
+        categoryTitle: "PROJECTS",
         cardPositionX: 0,
-        cardColor: colorPalette.brightPurple,
+        cardColor: colorPalette.mintGreen,
     },
     {
-        categoryTitle: "PROJECTS",
-        cardPositionX: -7,
-        cardColor: colorPalette.coralRed,
+        categoryTitle: "SKILLS",
+        cardPositionX: -8,
+        cardColor: colorPalette.yaleBlue,
     },
     {
         categoryTitle: "CONTACTS",
-        cardPositionX: 7,
-        cardColor: colorPalette.mintGreen,
+        cardPositionX: 8,
+        cardColor: colorPalette.silverLakeBlue,
     },
 ];
 

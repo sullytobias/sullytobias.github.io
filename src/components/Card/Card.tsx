@@ -14,6 +14,7 @@ type CardProps = {
     categoryTitle: string;
     isActive: boolean;
     categoryLoaded: boolean;
+    isMobile: boolean;
 };
 
 const Card: FC<CardProps> = ({
@@ -25,6 +26,7 @@ const Card: FC<CardProps> = ({
     categoryTitle,
     isActive,
     categoryLoaded,
+    isMobile,
 }) => {
     const meshRef = useRef<Mesh>(null!);
 
@@ -50,7 +52,7 @@ const Card: FC<CardProps> = ({
                 onPointerOut={() => (document.body.style.cursor = "auto")}
                 scale={scale.to((x, y, z) => [x, y, z])}
             >
-                <sphereGeometry args={[1.2, 32, 32]} />
+                <sphereGeometry args={[isMobile ? 1.5 : 2, 8, 8]} />
                 <animated.meshStandardMaterial
                     color={cardColor}
                     wireframe={true}
@@ -61,15 +63,16 @@ const Card: FC<CardProps> = ({
             </animated.mesh>
             <animated.mesh>
                 <Text
+                    font="https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhzQ.woff"
                     position={[positionX, positionY, 0]}
-                    fontSize={0.3}
-                    letterSpacing={1.1}
-                    fontWeight={700}
+                    fontSize={0.4}
+                    letterSpacing={0.8}
+                    fontWeight={900}
                     color={colorPalette.white}
                     anchorX="center"
                     anchorY="middle"
                 >
-                    <animated.meshStandardMaterial
+                    <animated.meshBasicMaterial
                         opacity={textOpacity}
                         transparent
                     />

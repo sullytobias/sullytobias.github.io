@@ -1,10 +1,8 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
-import { Html, Text } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
 import { colorPalette } from "../../../utils/constants";
-
-const AnimatedText = animated(Text);
 
 const FaLinkedinAnimated = animated(FaLinkedin);
 const FaGithubAnimated = animated(FaGithub);
@@ -13,13 +11,7 @@ const FaEnvelopeAnimated = animated(FaEnvelope);
 const iconsArray = [FaEnvelopeAnimated, FaGithubAnimated, FaLinkedinAnimated];
 
 const ContactInfo: FC = () => {
-    const iconScale = 3;
-
-    const nameSpring = useSpring({
-        from: { opacity: 0 },
-        to: { opacity: 1 },
-        config: { duration: 2500 },
-    });
+    const iconScale = 4;
 
     const iconSprings = [
         useSpring({ from: { opacity: 0 }, to: { opacity: 1 }, delay: 1000 }),
@@ -37,31 +29,26 @@ const ContactInfo: FC = () => {
 
     return (
         <group position={[0, 0, 0]}>
-            <AnimatedText
-                fillOpacity={nameSpring.opacity}
-                position={[0, 2, 0]}
-                fontSize={0.6}
-                color="white"
-                anchorX="center"
-                anchorY="middle"
-            >
-                Sullivan TOBIAS
-            </AnimatedText>
-
+            <Html center position={[0, 2, 0]}>
+                <img
+                    src="/assets/contact.jpg"
+                    alt="Profile"
+                    style={{
+                        width: "300px",
+                        pointerEvents: "none",
+                    }}
+                />
+            </Html>
             {iconsArray.map((Icon, index) => (
-                <animated.group
-                    key={index}
-                    position={[-1.5 + index * 1.5, 0, 0]}
-                >
+                <animated.group key={index} position={[-2 + index * 2, -2, 0]}>
                     <Html center>
                         <Icon
                             onPointerOver={() => handlePointerOver(index)}
                             onPointerOut={handlePointerOut}
-                            opacity={iconSprings[index].opacity}
                             style={{
                                 cursor: "pointer",
                                 fontSize: `${iconScale}rem`,
-                                color: colorPalette.lightGold,
+                                color: colorPalette.white,
                                 transform:
                                     hoveredIndex === index
                                         ? "scale(1.2)"
@@ -78,6 +65,7 @@ const ContactInfo: FC = () => {
                                                   : "https://www.linkedin.com/in/sullivan-tobias-340807157"
                                           )
                             }
+                            {...iconSprings[index]} // Apply spring styles directly
                         />
                     </Html>
                 </animated.group>

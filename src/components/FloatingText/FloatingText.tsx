@@ -51,11 +51,12 @@ const FloatingText: React.FC<FloatingTextProps> = ({
     return (
         <animated.mesh ref={meshRef}>
             <Text
-                color={colorPalette.lightGold}
-                fontSize={0.4}
+                font="https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhzQ.woff"
+                color={colorPalette.lime}
+                fontSize={0.5}
                 maxWidth={200}
                 lineHeight={1}
-                letterSpacing={0.5}
+                letterSpacing={0.4}
                 textAlign="center"
             >
                 {text}

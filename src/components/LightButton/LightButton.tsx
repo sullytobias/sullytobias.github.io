@@ -17,7 +17,6 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
 
     const springs = useSpring({
         scale: [1, 1, 1],
-        intensity: 1.5,
         from: { scale: [1.1, 1.1, 1.1] },
         config: { tension: 200, friction: 15 },
         loop: true,
@@ -36,7 +35,7 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
     });
 
     const { color } = useSpring({
-        color: hovered ? colorPalette.lightGold : colorPalette.white,
+        color: hovered ? colorPalette.lime : colorPalette.white,
         config: { tension: 50, friction: 10 },
     });
 
@@ -72,12 +71,13 @@ const LightButton: FC<LightButtonProps> = ({ onClick }) => {
             <animated.pointLight ref={lightRef} color={colorPalette.white} />
 
             <Text
+                font="https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhzQ.woff"
                 color={colorPalette.white}
                 fontSize={0.15}
-                fontWeight={700}
+                fontWeight={900}
                 maxWidth={2}
                 lineHeight={1}
-                letterSpacing={0.02}
+                letterSpacing={0.5}
                 textAlign="center"
                 position={[0, 0.5, 1]}
             >

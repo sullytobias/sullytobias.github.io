@@ -14,6 +14,11 @@ type SpaceProps = {
     activeCategory: "CONTACTS" | "SKILLS" | "PROJECTS";
 };
 
+type SnowFlakesProps = {
+    count: number;
+    activeCategory: "CONTACTS" | "SKILLS" | "PROJECTS";
+};
+
 export const Overlay = ({
     color,
     opacity,
@@ -38,7 +43,12 @@ export const Overlay = ({
     );
 };
 
-const Snowflakes = ({ count = 100 }) => {
+const Snowflakes = ({ count = 100, activeCategory }: SnowFlakesProps) => {
+    const { opacity: animatedOpacity } = useSpring({
+        opacity: activeCategory ? 0 : 1,
+        config: { duration: 500 },
+    });
+
     const snowflakesRef = useRef<Mesh[]>([]);
     const positions = useMemo(() => {
         const posArray = [];
@@ -47,7 +57,7 @@ const Snowflakes = ({ count = 100 }) => {
                 x: (Math.random() - 0.5) * 20,
                 y: Math.random() * 10,
                 z: (Math.random() - 0.5) * 20,
-                speed: Math.random() * 0.02 + 0.01,
+                speed: Math.random() * 0.02 + 0.001,
             });
         }
         return posArray;
@@ -77,7 +87,11 @@ const Snowflakes = ({ count = 100 }) => {
                     position={[pos.x, pos.y, pos.z]}
                 >
                     <sphereGeometry args={[0.05, 8, 8]} />
-                    <meshBasicMaterial color={colorPalette.skyBlue} />
+                    <animated.meshBasicMaterial
+                        opacity={animatedOpacity}
+                        transparent
+                        color={colorPalette.silverLakeBlue}
+                    />
                 </mesh>
             ))}
         </group>
@@ -97,7 +111,7 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
     return (
         <Fragment>
             <Overlay opacity={opacity} color={color} />
-            <Snowflakes count={300} />
+            <Snowflakes activeCategory={activeCategory} count={70} />
             {contentMap[activeCategory]}
         </Fragment>
     );

@@ -49,7 +49,7 @@ const getRandomPosition = (bounds: { x: number; y: number; z: number }) =>
     );
 
 const getRandomVelocity = () => {
-    const velocityScale = 0.05;
+    const velocityScale = 0.02;
 
     return new THREE.Vector3(
         (Math.random() - 0.5) * velocityScale,
@@ -111,6 +111,7 @@ const SkillItem: FC<{
             onPointerOut={() => setHovered(false)}
         >
             <TextAnimated
+                font="https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhzQ.woff"
                 fontSize={0.5}
                 color={hovered ? colorPalette.mintGreen : colorPalette.white}
                 anchorX="center"

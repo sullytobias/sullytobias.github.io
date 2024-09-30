@@ -36,7 +36,8 @@ const TypingText: FC<TypingTextProps> = ({ text, onComplete }) => {
     return (
         <animated.mesh>
             <Text
-                color={colorPalette.mintGreen}
+                font="https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhzQ.woff"
+                color={colorPalette.white}
                 fontSize={0.4}
                 maxWidth={getMaxWidth()}
                 lineHeight={2}

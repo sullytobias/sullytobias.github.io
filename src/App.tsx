@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, Fragment } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/web";
 import { useMediaQuery } from "react-responsive";
@@ -15,13 +15,7 @@ import SpotLight from "./components/Lights/Spotlight/Spotlight";
 import Space from "./components/Space/Space";
 import TypingText from "./components/TypingText/TypingText";
 
-import {
-    CATEGORIES,
-    colorPalette,
-    LOADING_TEXT,
-    PROJECT_CATEGORIES,
-    projectsData,
-} from "./utils/constants";
+import { CATEGORIES, colorPalette, LOADING_TEXT } from "./utils/constants";
 import { useSound } from "./context/SoundContext";
 
 const App: FC = () => {
@@ -39,7 +33,6 @@ const App: FC = () => {
     const [enteringSphere, setEnteringSphere] = useState(false);
     const [activeCardIndex, setActiveCardIndex] = useState<number>(-1);
     const [interactionDisabled, setInteractionDisabled] = useState(false);
-    const [showProjectList, setShowProjectList] = useState(false);
 
     const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -73,11 +66,6 @@ const App: FC = () => {
         config: { duration: 1000 },
     }));
 
-    const { opacity: projectListOpacity } = useSpring({
-        opacity: showProjectList ? 1 : 0,
-        config: { duration: 500 },
-    });
-
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setLoadingText(LOADING_TEXT.loaded);
@@ -89,14 +77,6 @@ const App: FC = () => {
     useEffect(() => {
         setInteractionDisabled(enteringSphere || activeCardIndex !== -1);
     }, [enteringSphere, activeCardIndex]);
-
-    useEffect(() => {
-        if (activeCardIndex === 1) {
-            const timeoutId = setTimeout(() => setShowProjectList(true), 100);
-            return () => clearTimeout(timeoutId);
-        }
-        setShowProjectList(false);
-    }, [activeCardIndex]);
 
     const handleTextComplete = () => setShowButton(true);
     const handleButtonClick = () => {
@@ -159,9 +139,9 @@ const App: FC = () => {
                 onClick={toggleBackgroundSound}
             >
                 {isBackgroundPlaying ? (
-                    <FaPause color={colorPalette.white} size={24} />
+                    <FaPause color={colorPalette.lime} size={24} />
                 ) : (
-                    <FaPlay color={colorPalette.white} size={24} />
+                    <FaPlay color={colorPalette.lime} size={24} />
                 )}
             </button>
 
@@ -177,9 +157,9 @@ const App: FC = () => {
                 onClick={toggleFxSound}
             >
                 {isFxPlaying ? (
-                    <FaVolumeUp color={colorPalette.white} size={24} />
+                    <FaVolumeUp color={colorPalette.lime} size={24} />
                 ) : (
-                    <FaVolumeMute color={colorPalette.white} size={24} />
+                    <FaVolumeMute color={colorPalette.lime} size={24} />
                 )}
             </button>
             <Canvas camera={{ position: [0, 0, 10] }}>
@@ -227,7 +207,7 @@ const App: FC = () => {
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        fill={colorPalette.lightGold}
+                        fill={colorPalette.lime}
                         width={isMobile ? "1.5rem" : "2rem"}
                         height={isMobile ? "1.5rem" : "2rem"}
                     >
@@ -235,51 +215,39 @@ const App: FC = () => {
                     </svg>
                 </div>
             )}
-            {activeCardIndex === 1 && (
-                <animated.div
-                    style={{
-                        position: "fixed",
-                        top: isMobile ? "60px" : "100px",
-                        left: "20px",
-                        borderRadius: "8px",
-                        padding: "10px",
-                        pointerEvents: "auto",
-                        opacity: projectListOpacity,
-                        maxWidth: isMobile ? "90vw" : "300px",
-                        background: "rgba(0, 0, 0, 0.05)",
-                    }}
-                >
-                    <ul
+            {activeCardIndex === 0 && (
+                <Fragment>
+                    <animated.div
                         style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            listStyleType: "none",
-                            padding: 0,
+                            color: colorPalette.silverLakeBlue,
+                            position: "fixed",
+                            top: "100px",
+                            left: "20px",
+                            borderRadius: "8px",
+                            padding: "10px",
+                            pointerEvents: "auto",
+                            maxWidth: isMobile ? "90vw" : "300px",
+                            background: "rgba(0, 0, 0, 0.05)",
                         }}
                     >
-                        {projectsData.map((project, index) => (
-                            <li key={index} style={{ marginBottom: "10px" }}>
-                                <a
-                                    href={project.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        textDecoration: "none",
-                                        color:
-                                            project.category === "professional"
-                                                ? PROJECT_CATEGORIES
-                                                      .professional.color
-                                                : PROJECT_CATEGORIES.personal
-                                                      .color,
-                                        fontSize: isMobile ? "0.9rem" : "1rem",
-                                    }}
-                                >
-                                    {project.title}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </animated.div>
+                        Pro
+                    </animated.div>
+                    <animated.div
+                        style={{
+                            color: colorPalette.white,
+                            position: "fixed",
+                            top: "140px",
+                            left: "20px",
+                            borderRadius: "8px",
+                            padding: "10px",
+                            pointerEvents: "auto",
+                            maxWidth: isMobile ? "90vw" : "300px",
+                            background: "rgba(0, 0, 0, 0.05)",
+                        }}
+                    >
+                        Perso
+                    </animated.div>
+                </Fragment>
             )}
         </animated.div>
     );
