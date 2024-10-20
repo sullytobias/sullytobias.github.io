@@ -129,7 +129,7 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
     const { camera } = useThree();
 
     const { cameraPosition } = useSpring({
-        cameraPosition: activeCategory === "PROJECTS" ? [0, 6, 5] : [0, 0, 10],
+        cameraPosition: activeCategory === "PROJECTS" ? [0, 8, 4] : [0, 0, 10],
         config: { tension: 300, friction: 50 },
     });
 
