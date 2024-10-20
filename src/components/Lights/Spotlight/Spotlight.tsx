@@ -20,7 +20,7 @@ const SpotLight: FC<SpotLightProps> = ({ intensity }) => {
         if (lightRef.current) {
             lightRef.current.position.set(
                 Math.sin(elapsedTime) * 10,
-                Math.cos(elapsedTime) * 10,
+                Math.cos(elapsedTime) * 3,
                 0
             );
         }

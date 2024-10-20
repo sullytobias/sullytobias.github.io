@@ -58,6 +58,7 @@ const GroupCard: React.FC<GroupCardProps> = ({
 
                     return (
                         <Card
+                            lightOn={lightOn}
                             isMobile={isMobile}
                             key={categoryTitle}
                             categoryTitle={categoryTitle}

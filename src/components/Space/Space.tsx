@@ -1,8 +1,13 @@
-import { FC, Fragment, useMemo, useRef } from "react";
+import { FC, Fragment, useMemo, useRef, useState } from "react";
 import { animated, useSpring } from "@react-spring/three";
 import { SpringValue } from "@react-spring/web";
-import { useFrame } from "@react-three/fiber";
-import { Mesh } from "three";
+import {
+    Euler,
+    useFrame,
+    useThree,
+    type Vector3 as Vector3Type,
+} from "@react-three/fiber";
+import { Mesh, Vector3 } from "three";
 import ContactInfo from "./Contact/Contact";
 import Skills from "./Skills/Skills";
 import Projects from "./Projects/Projects";
@@ -22,18 +27,28 @@ type SnowFlakesProps = {
 export const Overlay = ({
     color,
     opacity,
+    activeCategory,
 }: {
     color: string;
     opacity: SpringValue<number>;
+    activeCategory: "CONTACTS" | "SKILLS" | "PROJECTS";
 }) => {
+    const isProjects = activeCategory === "PROJECTS";
+
+    const planeWidth = isProjects ? 80 : window.innerWidth;
+    const planeHeight = isProjects ? 80 : window.innerHeight;
+
     const { opacity: animatedOpacity } = useSpring({
         opacity: opacity,
         config: { duration: 500 },
     });
 
+    const position: Vector3Type = isProjects ? [0, -3, 0] : [0, 0, -5];
+    const rotation: Euler = isProjects ? [-Math.PI / 2, 0, 0] : [0, 0, 0];
+
     return (
-        <mesh position={[0, 0, -5]}>
-            <planeGeometry args={[window.innerWidth, window.innerHeight]} />
+        <mesh position={position} rotation={rotation}>
+            <planeGeometry args={[planeWidth, planeHeight]} />
             <animated.meshStandardMaterial
                 color={color}
                 transparent
@@ -44,15 +59,17 @@ export const Overlay = ({
 };
 
 const Snowflakes = ({ count = 100, activeCategory }: SnowFlakesProps) => {
+    const [countedFlakes, setCountedFlakes] = useState(count);
     const { opacity: animatedOpacity } = useSpring({
         opacity: activeCategory ? 0 : 1,
-        config: { duration: 500 },
+        config: { duration: 1000 },
+        onRest: () => activeCategory && setCountedFlakes(0),
     });
 
     const snowflakesRef = useRef<Mesh[]>([]);
     const positions = useMemo(() => {
         const posArray = [];
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < countedFlakes; i++) {
             posArray.push({
                 x: (Math.random() - 0.5) * 20,
                 y: Math.random() * 10,
@@ -61,7 +78,7 @@ const Snowflakes = ({ count = 100, activeCategory }: SnowFlakesProps) => {
             });
         }
         return posArray;
-    }, [count]);
+    }, [countedFlakes]);
 
     useFrame(() => {
         snowflakesRef.current.forEach((flake, i) => {
@@ -86,10 +103,11 @@ const Snowflakes = ({ count = 100, activeCategory }: SnowFlakesProps) => {
                     ref={(el) => (snowflakesRef.current[i] = el!)}
                     position={[pos.x, pos.y, pos.z]}
                 >
-                    <sphereGeometry args={[0.05, 8, 8]} />
-                    <animated.meshBasicMaterial
+                    <sphereGeometry args={[0.05, 3, 3]} />
+                    <animated.meshStandardMaterial
                         opacity={animatedOpacity}
                         transparent
+                        wireframe
                         color={colorPalette.silverLakeBlue}
                     />
                 </mesh>
@@ -108,9 +126,26 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
         []
     );
 
+    const { camera } = useThree();
+
+    const { cameraPosition } = useSpring({
+        cameraPosition: activeCategory === "PROJECTS" ? [0, 6, 5] : [0, 0, 10],
+        config: { tension: 300, friction: 50 },
+    });
+
+    useFrame(() => {
+        const [x, y, z] = cameraPosition.get();
+        camera.position.lerp(new Vector3(x, y, z), 0.1);
+        camera.lookAt(0, 0, 0);
+    });
+
     return (
         <Fragment>
-            <Overlay opacity={opacity} color={color} />
+            <Overlay
+                activeCategory={activeCategory}
+                opacity={opacity}
+                color={color}
+            />
             <Snowflakes activeCategory={activeCategory} count={70} />
             {contentMap[activeCategory]}
         </Fragment>

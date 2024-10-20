@@ -15,6 +15,7 @@ type CardProps = {
     isActive: boolean;
     categoryLoaded: boolean;
     isMobile: boolean;
+    lightOn: boolean;
 };
 
 const Card: FC<CardProps> = ({
@@ -27,6 +28,7 @@ const Card: FC<CardProps> = ({
     isActive,
     categoryLoaded,
     isMobile,
+    lightOn,
 }) => {
     const meshRef = useRef<Mesh>(null!);
 
@@ -48,7 +50,9 @@ const Card: FC<CardProps> = ({
                 position-x={positionX}
                 position-y={positionY}
                 onClick={onClick}
-                onPointerOver={() => (document.body.style.cursor = "pointer")}
+                onPointerOver={() =>
+                    (document.body.style.cursor = lightOn ? "pointer" : "auto")
+                }
                 onPointerOut={() => (document.body.style.cursor = "auto")}
                 scale={scale.to((x, y, z) => [x, y, z])}
             >

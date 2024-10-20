@@ -6,8 +6,8 @@ import { animated, useSpring } from "@react-spring/three";
 import {
     colorPalette,
     PROJECT_CATEGORIES,
-    ProjectCategory,
     projectsData,
+    ProjectCategory,
 } from "../../../utils/constants";
 import { useSound } from "../../../context/SoundContext";
 import { useMediaQuery } from "react-responsive";
@@ -86,7 +86,7 @@ const ProjectCard: FC<{
                 initialPosition.z,
             ]}
             mass={1}
-            restitution={0.1}
+            restitution={0.8}
             onCollisionEnter={playCollisionSound}
         >
             <group
@@ -95,7 +95,7 @@ const ProjectCard: FC<{
                 onClick={handleClick}
             >
                 <AnimatedSphere
-                    args={[isMobile ? 0.5 : 0.6, 32, 32]}
+                    args={[isMobile ? 0.5 : 0.6, 16, 16]}
                     scale={scale}
                 >
                     <animated.meshStandardMaterial
@@ -107,11 +107,12 @@ const ProjectCard: FC<{
                         metalness={1}
                     />
                 </AnimatedSphere>
-                <Html position={[0, 0.6, 0]} center>
+                <Html position={[0, 0, 0]} center>
                     <div
                         style={{
-                            fontSize: isMobile ? "0.7rem" : "1rem",
+                            fontSize: isMobile ? "0.6rem" : "0.9rem",
                             fontFamily: "Montserrat",
+                            fontWeight: "bold",
                             color: colorPalette.white,
                             pointerEvents: "none",
                         }}
