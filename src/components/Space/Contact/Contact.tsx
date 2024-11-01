@@ -1,7 +1,7 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Html } from "@react-three/drei";
-import { useSpring, animated } from "@react-spring/three";
+import { useSprings, animated } from "@react-spring/three";
 import { colorPalette } from "../../../utils/constants";
 
 const FaLinkedinAnimated = animated(FaLinkedin);
@@ -12,12 +12,24 @@ const iconsArray = [FaEnvelopeAnimated, FaGithubAnimated, FaLinkedinAnimated];
 
 const ContactInfo: FC = () => {
     const iconScale = 4;
+    const [imageLoaded, setImageLoaded] = useState(false);
 
-    const iconSprings = [
-        useSpring({ from: { opacity: 0 }, to: { opacity: 1 }, delay: 1000 }),
-        useSpring({ from: { opacity: 0 }, to: { opacity: 1 }, delay: 1200 }),
-        useSpring({ from: { opacity: 0 }, to: { opacity: 1 }, delay: 1400 }),
-    ];
+    // Preload the image on component mount
+    useEffect(() => {
+        const img = new Image();
+        img.src = "/assets/contact.jpg";
+        img.onload = () => setImageLoaded(true);
+    }, []);
+
+    // Use useSprings for multiple springs in a single array
+    const springs = useSprings(
+        iconsArray.length,
+        iconsArray.map((_, index) => ({
+            opacity: imageLoaded ? 1 : 0,
+            delay: imageLoaded ? 200 * (index + 1) : 0,
+            from: { opacity: 0 },
+        }))
+    );
 
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -30,14 +42,17 @@ const ContactInfo: FC = () => {
     return (
         <group position={[0, 0, 0]}>
             <Html center position={[0, 2, 0]}>
-                <img
-                    src="/assets/contact.jpg"
-                    alt="Profile"
-                    style={{
-                        width: "300px",
-                        pointerEvents: "none",
-                    }}
-                />
+                {imageLoaded && (
+                    <img
+                        src="/assets/contact.jpg"
+                        alt="Profile"
+                        style={{
+                            width: "20rem",
+                            borderRadius: "16px",
+                            pointerEvents: "none",
+                        }}
+                    />
+                )}
             </Html>
             {iconsArray.map((Icon, index) => (
                 <animated.group key={index} position={[-2 + index * 2, -2, 0]}>
@@ -65,7 +80,7 @@ const ContactInfo: FC = () => {
                                                   : "https://www.linkedin.com/in/sullivan-tobias-340807157"
                                           )
                             }
-                            {...iconSprings[index]} // Apply spring styles directly
+                            {...springs[index]} // Apply spring styles directly from useSprings
                         />
                     </Html>
                 </animated.group>
