@@ -236,7 +236,7 @@ const App: FC = () => {
                         style={{
                             color: colorPalette.white,
                             position: "fixed",
-                            top: "140px",
+                            top: "160px",
                             left: "20px",
                             borderRadius: "8px",
                             padding: "10px",

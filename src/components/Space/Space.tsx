@@ -20,7 +20,7 @@ type SpaceProps = {
 };
 
 type SnowFlakesProps = {
-    count: number;
+    count?: number;
     activeCategory: "CONTACTS" | "SKILLS" | "PROJECTS";
 };
 
@@ -58,12 +58,13 @@ export const Overlay = ({
     );
 };
 
-const Snowflakes = ({ count = 100, activeCategory }: SnowFlakesProps) => {
+const Snowflakes = ({ count = 70, activeCategory }: SnowFlakesProps) => {
     const [countedFlakes, setCountedFlakes] = useState(count);
     const { opacity: animatedOpacity } = useSpring({
         opacity: activeCategory ? 0 : 1,
         config: { duration: 1000 },
-        onRest: () => activeCategory && setCountedFlakes(0),
+        onChange: () =>
+            activeCategory ? setCountedFlakes(0) : setCountedFlakes(70),
     });
 
     const snowflakesRef = useRef<Mesh[]>([]);
@@ -146,7 +147,7 @@ const Space: FC<SpaceProps> = ({ color, opacity, activeCategory }) => {
                 opacity={opacity}
                 color={color}
             />
-            <Snowflakes activeCategory={activeCategory} count={70} />
+            <Snowflakes activeCategory={activeCategory} />
             {contentMap[activeCategory]}
         </Fragment>
     );

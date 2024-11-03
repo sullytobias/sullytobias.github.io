@@ -56,7 +56,7 @@ const Card: FC<CardProps> = ({
                 onPointerOut={() => (document.body.style.cursor = "auto")}
                 scale={scale.to((x, y, z) => [x, y, z])}
             >
-                <sphereGeometry args={[isMobile ? 1.5 : 2, 8, 8]} />
+                <sphereGeometry args={[isMobile ? 1.5 : 2, 16, 16]} />
                 <animated.meshStandardMaterial
                     color={cardColor}
                     wireframe={true}
@@ -71,7 +71,6 @@ const Card: FC<CardProps> = ({
                     position={[positionX, positionY, 0]}
                     fontSize={0.4}
                     letterSpacing={0.8}
-                    fontWeight={900}
                     color={colorPalette.white}
                     anchorX="center"
                     anchorY="middle"

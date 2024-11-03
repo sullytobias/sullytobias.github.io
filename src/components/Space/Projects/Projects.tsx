@@ -33,7 +33,7 @@ const ProjectCard: FC<{
     const sphereColor = PROJECT_CATEGORIES[category]?.color;
 
     const { scale, color, opacity } = useSpring({
-        scale: bumped ? 1.2 : 1,
+        scale: bumped ? 2 : 1.2,
         color: hovered ? colorPalette.lime : sphereColor,
         opacity: hovered || bumped ? 1 : 0.8,
         config: { tension: 200, friction: 10 },
@@ -45,6 +45,7 @@ const ProjectCard: FC<{
                 src: ["/sounds/ballColliding.mp3"],
                 volume: 0.01,
             });
+
             isFxPlaying && collisionSound.play();
 
             setCollisionCount(collisionCount + 1);
@@ -95,7 +96,7 @@ const ProjectCard: FC<{
                 onClick={handleClick}
             >
                 <AnimatedSphere
-                    args={[isMobile ? 0.5 : 0.6, 16, 16]}
+                    args={[isMobile ? 0.5 : 0.6, 64, 64]}
                     scale={scale}
                 >
                     <animated.meshStandardMaterial
@@ -109,12 +110,13 @@ const ProjectCard: FC<{
                 </AnimatedSphere>
                 <Html position={[0, 0, 0]} center>
                     <div
+                        onClick={handleClick} // Add click handler here
                         style={{
                             fontSize: isMobile ? "0.6rem" : "0.9rem",
                             fontFamily: "Montserrat",
                             fontWeight: "bold",
                             color: colorPalette.white,
-                            pointerEvents: "none",
+                            cursor: "pointer",
                         }}
                     >
                         {title}
@@ -157,13 +159,7 @@ const Projects: FC = () => {
                     rotation={[-Math.PI / 2, 0, 0]}
                     position={[0, -2, 0]}
                 >
-                    <meshStandardMaterial
-                        opacity={0.1}
-                        wireframe
-                        transparent
-                        color={colorPalette.black}
-                        depthWrite={false}
-                    />
+                    <meshStandardMaterial opacity={0} transparent />
                 </Circle>
             </RigidBody>
 
