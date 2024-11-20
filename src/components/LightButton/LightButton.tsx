@@ -1,7 +1,9 @@
 import { FC, useRef } from "react";
-import { PointLight } from "three";
 import { useSpring, animated } from "@react-spring/three";
 import { Text } from "@react-three/drei";
+
+import { PointLight } from "three";
+
 import { colorPalette } from "../../utils/constants";
 
 type LightButtonProps = {

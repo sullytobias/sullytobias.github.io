@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
-import Card from "../Card/Card";
 import { useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { useSpring, animated } from "@react-spring/three";
 import { useMediaQuery } from "react-responsive";
+
+import Card from "../Card/Card";
 
 type CategoryType = {
     cardPositionX: number;

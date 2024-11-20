@@ -1,8 +1,10 @@
 import { useRef, FC } from "react";
-import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/three";
 import { Text } from "@react-three/drei";
+
+import { Mesh } from "three";
+
 import { colorPalette } from "../../utils/constants";
 
 type CardProps = {

@@ -109,4 +109,9 @@ export const projectsData: Project[] = [
         link: "https://sullivantobias.github.io/github-resume/",
         category: "personal",
     },
+    {
+        title: "World Clock",
+        link: "https://sullytobias.github.io/world-clock-3d/",
+        category: "personal",
+    },
 ];

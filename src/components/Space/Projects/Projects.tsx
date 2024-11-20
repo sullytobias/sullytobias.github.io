@@ -3,6 +3,10 @@ import { Sphere, Html, Cylinder, Circle } from "@react-three/drei";
 import { Vector3 } from "three";
 import { Physics, RigidBody } from "@react-three/rapier";
 import { animated, useSpring } from "@react-spring/three";
+
+import { useMediaQuery } from "react-responsive";
+import { Howl } from "howler";
+
 import {
     colorPalette,
     PROJECT_CATEGORIES,
@@ -10,8 +14,6 @@ import {
     ProjectCategory,
 } from "../../../utils/constants";
 import { useSound } from "../../../context/SoundContext";
-import { useMediaQuery } from "react-responsive";
-import { Howl } from "howler";
 
 const AnimatedSphere = animated(Sphere);
 const getRandomPosition = (cupRadius: number) => {

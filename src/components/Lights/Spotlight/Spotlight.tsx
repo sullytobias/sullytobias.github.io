@@ -1,8 +1,9 @@
 import { useRef, FC } from "react";
-import { SpotLight as SpotLightType } from "three";
 import { useFrame } from "@react-three/fiber";
 import { animated, useSpring } from "@react-spring/three";
 import { SpringValue } from "@react-spring/web";
+
+import { SpotLight as SpotLightType } from "three";
 
 type SpotLightProps = {
     intensity: SpringValue<number>;
