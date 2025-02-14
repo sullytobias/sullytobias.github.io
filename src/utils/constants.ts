@@ -114,4 +114,14 @@ export const projectsData: Project[] = [
         link: "https://sullytobias.github.io/world-clock-3d/",
         category: "personal",
     },
+    {
+        title: "Photo Gallery",
+        link: "https://sullytobias.github.io/photo-gallery/",
+        category: "personal",
+    },
+    {
+        title: "Audio Vibe",
+        link: "https://sullytobias.github.io/audio-vibe/",
+        category: "personal",
+    },
 ];
