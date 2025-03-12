@@ -124,4 +124,14 @@ export const projectsData: Project[] = [
         link: "https://sullytobias.github.io/audio-vibe/",
         category: "personal",
     },
+    {
+        title: "Timing Game",
+        link: "https://sullytobias.github.io/timing-game",
+        category: "personal",
+    },
+    {
+        title: "Tidy Tab - Chrome Extension",
+        link: "https://github.com/sullytobias/tidy-tab",
+        category: "personal",
+    },
 ];
